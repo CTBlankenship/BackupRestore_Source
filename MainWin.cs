@@ -273,6 +273,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             }
 
             btnRestore.Enabled = false;
+            txtFileToRestore.Text = String.Empty;
         }
 
 
