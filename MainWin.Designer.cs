@@ -60,6 +60,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.txtLogFile = new System.Windows.Forms.TextBox();
             this.lblLogFile = new System.Windows.Forms.Label();
             this.cmdShow = new System.Windows.Forms.Button();
+            this.cmdViewInNotepad = new System.Windows.Forms.Button();
             this.grpBackup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -383,11 +384,22 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.cmdShow.UseVisualStyleBackColor = true;
             this.cmdShow.Click += new System.EventHandler(this.cmdShow_Click);
             // 
+            // cmdViewInNotepad
+            // 
+            this.cmdViewInNotepad.Location = new System.Drawing.Point(131, 296);
+            this.cmdViewInNotepad.Name = "cmdViewInNotepad";
+            this.cmdViewInNotepad.Size = new System.Drawing.Size(113, 23);
+            this.cmdViewInNotepad.TabIndex = 7;
+            this.cmdViewInNotepad.Text = "View In Notepad";
+            this.cmdViewInNotepad.UseVisualStyleBackColor = true;
+            this.cmdViewInNotepad.Click += new System.EventHandler(this.cmdViewInNotepad_Click);
+            // 
             // MainWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(850, 510);
+            this.Controls.Add(this.cmdViewInNotepad);
             this.Controls.Add(this.cmdShow);
             this.Controls.Add(this.lblLogFile);
             this.Controls.Add(this.txtLogFile);
@@ -450,5 +462,6 @@ namespace NC.Util.SqlSrv.BackupRestore
         private System.Windows.Forms.TextBox txtLogFile;
         private System.Windows.Forms.Label lblLogFile;
         private System.Windows.Forms.Button cmdShow;
+        private System.Windows.Forms.Button cmdViewInNotepad;
     }
 }

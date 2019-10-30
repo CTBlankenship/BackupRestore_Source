@@ -521,5 +521,10 @@ namespace NC.Util.SqlSrv.BackupRestore
                 txtLogFile.Text = String.Empty;
             }
         }
+
+        private void cmdViewInNotepad_Click(object sender, EventArgs e)
+        {
+            CommandLineHelper.LaunchNotepadToViewLogFile();
+        }
     }
 }
