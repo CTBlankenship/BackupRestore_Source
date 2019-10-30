@@ -418,6 +418,8 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _sqlConn.Close();
             }
             _sqlConn.Dispose();
+
+            CleanUpScratchPadFiles();
         }
 
         private void cmdGetZipFile_Click(object sender, EventArgs e)
