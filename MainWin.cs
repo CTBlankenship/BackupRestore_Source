@@ -156,7 +156,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             catch (Exception e)
             {
                 MessageBox.Show(@"Shrink database log file failed, please see log file for details ...", _messageBoxCaption);
-                Logger.LogMessage(@"ShrinkDatabaseLogFile() failed: " + ToString());
+                Logger.LogMessage(@"ShrinkDatabaseLogFile() failed: " + e);
                 Logger.LogMessage(@"----------");
 
                 MessageBox.Show(e.ToString(), _messageBoxCaption);
@@ -247,7 +247,7 @@ namespace NC.Util.SqlSrv.BackupRestore
 
         void dbBackup_Complete(object sender, ServerMessageEventArgs e)
         {
-            MessageBox.Show(@"Backup complete", _messageBoxCaption);
+            MessageBox.Show(@"Backup complete!!!", _messageBoxCaption);
             Logger.LogMessage($@"Backup complete!!!");
             Logger.LogMessage("----------");
 
