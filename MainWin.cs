@@ -39,9 +39,9 @@ namespace NC.Util.SqlSrv.BackupRestore
         private SqlConnection _sqlConn;
         private Server _sqlServer;
         private List<Database> _dbList = new List<Database>();
-        private string _backupZips = ConfigurationManager.AppSettings["BackupZips"];
-        private string _scratchPad = ConfigurationManager.AppSettings["Scratch"];
-        private string _DbFileLocation = ConfigurationManager.AppSettings["SqlFileLocations"];
+        private string _backupZips = @"C:\NovantBackups\SQLBackups\";
+        private string _scratchPad = @"C:\NovantBackups\Scratch\";
+        private string _DbFileLocation = @"C:\Program Files\Microsoft SQL Server\MSSQL13.SQLSVR_2016\MSSQL\DATA\";
         private string _zipFileName = String.Empty;
         private string _databaseFileName = String.Empty;
         private string _databaseLogFileName = string.Empty;
