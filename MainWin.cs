@@ -107,10 +107,13 @@ namespace NC.Util.SqlSrv.BackupRestore
         // ------------------------------------------------------------------
         private void CleanUpScratchPadFiles()
         {
-            string[] files = Directory.GetFiles(_scratchPad);
-            foreach (string file in files)
+            if (Directory.Exists(_scratchPad))
             {
-                File.Delete(file);
+                string[] files = Directory.GetFiles(_scratchPad);
+                foreach (string file in files)
+                {
+                    File.Delete(file);
+                }
             }
         }
 
@@ -388,6 +391,46 @@ namespace NC.Util.SqlSrv.BackupRestore
                 DateTime.Now.Minute.ToString().PadLeft(2, '0'),
                 DateTime.Now.Second.ToString().PadLeft(2, '0'),
                 _dbName);
+
+            // ---------------
+            // CTB: 2019.10.30
+            // --------------------------------------------------------------
+            // Check to make sure the directories defined in app.config exist
+            // --------------------------------------------------------------
+            bool validDirectoryStructures = true;
+
+            if (!Directory.Exists(_backupZips))
+            {
+                Logger.LogMessage("The backup destination directory " + _backupZips + " does not exist.");
+                validDirectoryStructures = false;
+            }
+
+            if (!Directory.Exists(_scratchPad))
+            {
+                Logger.LogMessage("The scratch pad directory " + _scratchPad + " does not exist.");
+                validDirectoryStructures = false;
+            }
+
+            if (!Directory.Exists(_scratchPad))
+            {
+                Logger.LogMessage("The database file directory " + _DbFileLocation + " does not exist.");
+                validDirectoryStructures = false;
+            }
+
+            if (!validDirectoryStructures)
+            {
+                cmdShrinkLogFile.Enabled = false;
+                btnBackupDb.Enabled = false;
+                btnRestore.Enabled = false;
+                cmdGetZipFile.Enabled = false;
+                cmbBackupDb.Enabled = false;
+
+
+                MessageBox.Show(
+                    "The directory structures for the application are invlid. Please see log file for details.  Make the changes, recompile then redeploy the application.", _messageBoxCaption);
+                Logger.LogMessage("----------");
+
+            }
 
             _backupFileName = _scratchPad + baseFileName + ".bak";
             _zipFileName = _backupZips + baseFileName + ".zip";
