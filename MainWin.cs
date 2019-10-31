@@ -656,6 +656,11 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.Add("BackupZips", @"C:\NovantBackups\SQLBackups\");
                 _configurationSettings.Add("ScratchPad", @"C:\NovantBackups\Scratch\");
                 _configurationSettings.Add("DbFileLocations", @"C:\Program Files\Microsoft SQL Server\MSSQL13.SQLSVR_2016\MSSQL\DATA\");
+                _configurationSettings.Add("ConnectionString", @"C:\Program Files\Microsoft SQL Server\MSSQL13.SQLSVR_2016\MSSQL\DATA\");
+                _configurationSettings.Add("LocalRetentionMonths", "6");
+                _configurationSettings.Add("ConnectionString", "Server=CTB-MAXIMUS-PC;Database=master;Trusted_Connection=True");
+
+                _configurationSettings.Add("EmailUseEmailSettings", "true");
                 _configurationSettings.Add("EmailSuccessEmail", "stan@yourcompany.com");
                 _configurationSettings.Add("EmailFailureEmail", "bob@yourcompany.com");
                 _configurationSettings.Add("EmailSMTPOutgoingServer", "smtpout.secureserver.net");
@@ -664,6 +669,8 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.Add("EmailRequiresSSL", "true");
                 _configurationSettings.Add("EmailEnableSSL", "true");
                 _configurationSettings.Add("EmailOutgoingPortNumber", "465");
+
+                _configurationSettings.Add("FTPUseFTPSettings", "true");
                 _configurationSettings.Add("FTPHostAddress", "");
                 _configurationSettings.Add("FTPUserName", "BobRhinehardt");
                 _configurationSettings.Add("FTPPassword", "S#u1p!D");
@@ -673,8 +680,6 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.Add("FTPWriteSessionToLog", "true");
                 _configurationSettings.Add("FTPRetentionsMonths", "6");
                 _configurationSettings.Add("FTPRetentionDays", "0");
-                _configurationSettings.Add("LocalRetentionMonths", "6");
-                _configurationSettings.Add("LocalRetentionDays", "0");
 
                 FileStream fs = new FileStream(_settingsFileName, FileMode.Append);
 
