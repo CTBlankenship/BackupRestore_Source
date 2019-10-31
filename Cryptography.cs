@@ -188,4 +188,5 @@ namespace NC.Util.SqlSrv.BackupRestore
             return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
         }
     }
+
 }

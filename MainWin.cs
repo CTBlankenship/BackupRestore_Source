@@ -66,7 +66,6 @@ namespace NC.Util.SqlSrv.BackupRestore
             InitializeComponent();
             openBakFile.InitialDirectory = Application.StartupPath;
             saveBakFile.InitialDirectory = Application.StartupPath;
-            InitializeConfigurationSettings();
             try
             {
                 // --------------------------------------------------------------
@@ -168,7 +167,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             sqlCommand += " ALTER DATABASE " + cmbBackupDb.Text;
             sqlCommand += " SET RECOVERY FULL";
             Logger.LogMessage("Shrink Log File Script: " + sqlCommand);
-            txtBackupSql.Text = sqlCommand;
+            txtBackupScript.Text = sqlCommand;
 
             try
             {
@@ -252,8 +251,8 @@ namespace NC.Util.SqlSrv.BackupRestore
                 BackupDeviceItem device = new BackupDeviceItem(txtFileToBackUp.Text, DeviceType.File);
                 dbBackup.Devices.Add(device);
 
-                txtBackupSql.Text = dbBackup.Script(_sqlServer);
-                Logger.LogMessage("SQL Backup Script: " + txtBackupSql.Text);
+                txtBackupScript.Text = dbBackup.Script(_sqlServer);
+                Logger.LogMessage("SQL Backup Script: " + txtBackupScript.Text);
                 progBar.Visible = true;
                 progBar.Value = 0;
 
@@ -346,7 +345,7 @@ namespace NC.Util.SqlSrv.BackupRestore
                 sql = "USE master ALTER DATABASE " + _dbName + " SET SINGLE_USER WITH ROLLBACK IMMEDIATE " + sql;
                 sql += " ALTER DATABASE " + _dbName + " SET MULTI_USER ";
 
-                txtBackupSql.Text = sql;
+                txtRestoreScript.Text = sql;
                 Logger.LogMessage("SQL Restore Script: " + sql);
                 progBar.Visible = true;
                 progBar.Value = 0;
@@ -418,9 +417,9 @@ namespace NC.Util.SqlSrv.BackupRestore
 
             // ---------------
             // CTB: 2019.10.30
-            // --------------------------------------------------------------
-            // Check to make sure the directories defined in app.config exist
-            // --------------------------------------------------------------
+            // -----------------------------------------------------------------------
+            // Check to make sure the directories defined in ConfigurationSettings.txt
+            // -----------------------------------------------------------------------
             bool validDirectoryStructures = true;
 
             if (!Directory.Exists(_backupZips))
@@ -491,16 +490,17 @@ namespace NC.Util.SqlSrv.BackupRestore
 
         private void cmdGetZipFile_Click(object sender, EventArgs e)
         {
-            openFileDialog1.InitialDirectory = _backupZips;
-            openFileDialog1.RestoreDirectory = true;
-            openFileDialog1.Title = "Select a .zip file containg the .bak file of the DB to restore";
-            openFileDialog1.ValidateNames = true;
-            openFileDialog1.AddExtension = true;
-            openFileDialog1.Filter = "zip files (*.zip)|";
-            openFileDialog1.ShowHelp = false;
+            ofdRestoreZips.InitialDirectory = _backupZips;
+            ofdRestoreZips.RestoreDirectory = true;
+            ofdRestoreZips.Title = "Select a .zip file containg the .bak file of the DB to restore";
+            ofdRestoreZips.ValidateNames = true;
+            ofdRestoreZips.AddExtension = true;
+            ofdRestoreZips.Filter = "zip files (*.zip)|";
+            ofdRestoreZips.ShowHelp = false;
+            ofdRestoreZips.FileName = "";
 
-            DialogResult result = openFileDialog1.ShowDialog();
-            if (string.IsNullOrEmpty(openFileDialog1.FileName))
+            DialogResult result = ofdRestoreZips.ShowDialog();
+            if (string.IsNullOrEmpty(ofdRestoreZips.FileName))
             {
                 MessageBox.Show("Please select a .zip file first!!!", _messageBoxCaption);
             }
@@ -508,9 +508,9 @@ namespace NC.Util.SqlSrv.BackupRestore
             {
                 if (result == DialogResult.OK)
                 {
-                    if (RestoreWarning(openFileDialog1.FileName))
+                    if (RestoreWarning(ofdRestoreZips.FileName))
                     {
-                        ExtractBackupFile(openFileDialog1.FileName);
+                        ExtractBackupFile(ofdRestoreZips.FileName);
                     }
                 }
             }
@@ -594,17 +594,6 @@ namespace NC.Util.SqlSrv.BackupRestore
             CommandLineHelper.LaunchNotepadToViewLogFile();
         }
 
-        private string DecryptConfigurationSettings()
-        {
-            string decryptedString = string.Empty;
-
-            if (@File.Exists(Environment.CurrentDirectory + @"\DoNotEditMe_ConfigurationSettings.txt"))
-            {
-
-            }
-            return decryptedString;
-        }
-
         private void SaveConfigurationSettings()
         {
         }
@@ -633,6 +622,29 @@ namespace NC.Util.SqlSrv.BackupRestore
                     
                     _configurationSettings.Add(decryptedKey, decryptedValue);
                 }
+
+                _configurationSettings.TryGetValue("BackupZips", out string backupZipDirectory);
+                txtBackupZips.Text = backupZipDirectory;
+
+                _configurationSettings.TryGetValue("ScratchPad", out string scratchPadDirectory);
+                txtScratchPad.Text = scratchPadDirectory;
+
+                _configurationSettings.TryGetValue("DbFileLocations", out string dbFileDirectory);
+                txtSQLFileLocations.Text = dbFileDirectory;
+
+                _configurationSettings.TryGetValue("LocalRetentionMonths", out string months);
+                nudMonths.Value = Convert.ToInt32(months);
+
+                _configurationSettings.TryGetValue("LocalRetentionDays", out string days);
+                nudDays.Value = Convert.ToInt32(days);
+
+                _configurationSettings.TryGetValue("EmailSuccessEmail", out string successfulEmail);
+                txtSuccessEmail.Text = successfulEmail;
+
+                _configurationSettings.TryGetValue("EmailFailureEmail", out string failureEmail);
+                txtFailureEmail.Text = failureEmail;
+
+
             }
         }
 
@@ -650,6 +662,7 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.Add("EmailLoginUserName", "bob@novantconsulting.com");
                 _configurationSettings.Add("EmailLoginUserPassword", "S#u1p!D");
                 _configurationSettings.Add("EmailRequiresSSL", "true");
+                _configurationSettings.Add("EmailEnableSSL", "true");
                 _configurationSettings.Add("EmailOutgoingPortNumber", "465");
                 _configurationSettings.Add("FTPHostAddress", "");
                 _configurationSettings.Add("FTPUserName", "BobRhinehardt");
@@ -661,7 +674,7 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.Add("FTPRetentionsMonths", "6");
                 _configurationSettings.Add("FTPRetentionDays", "0");
                 _configurationSettings.Add("LocalRetentionMonths", "6");
-                _configurationSettings.Add("LocalRetention", "0");
+                _configurationSettings.Add("LocalRetentionDays", "0");
 
                 FileStream fs = new FileStream(_settingsFileName, FileMode.Append);
 
@@ -678,6 +691,21 @@ namespace NC.Util.SqlSrv.BackupRestore
                 }
                 fs.Close();
             }
+        }
+
+        private void cmdBackupZips_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmdScratch_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmdSQLDBFiles_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
