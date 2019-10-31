@@ -135,7 +135,19 @@ namespace NC.Util.SqlSrv.BackupRestore
                 string[] files = Directory.GetFiles(_scratchPad);
                 foreach (string file in files)
                 {
-                    File.Delete(file);
+                    // --------------
+                    // CTB 2019:10:31
+                    //----------------------------------------------------------
+                    // WARNING: this method deletes ALL of the files in the 
+                    //          specified folder. We MUST filter to erase
+                    //          ONLY .bak files or we'll empty a folder
+                    //          of any files in it ... think of what would happen
+                    //          if the user selected C:\Temp ... yikes.
+                    // ----------------------------------------------------------
+                    if (file.Contains(".bak"))
+                    {
+                        File.Delete(file);
+                    }
                 }
             }
         }
@@ -644,10 +656,35 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.TryGetValue("EmailFailureEmail", out string failureEmail);
                 txtFailureEmail.Text = failureEmail;
 
+                _configurationSettings.TryGetValue("EmailUseEmailSettings", out string useEMailSettigns);
+                chkConfigureEmails.Checked = Convert.ToBoolean(useEMailSettigns == "true");
+
                 _configurationSettings.TryGetValue("ConnectionString", out string connectionString);
                 txtConnectionString.Text = connectionString;
 
+                _configurationSettings.TryGetValue("EmailFromEmail", out string emailFromEmail);
+                txtFromEmail.Text = emailFromEmail;
 
+                _configurationSettings.TryGetValue("EmailSMTPOutgoingServer", out string SMTPOutgoingServer);
+                txtSMTPServer.Text = SMTPOutgoingServer;
+
+                _configurationSettings.TryGetValue("EmailSMTPPort", out string EmailSMTPPort);
+                nudFTPPort.Value = Convert.ToInt32(EmailSMTPPort);
+
+                _configurationSettings.TryGetValue("EmailRequiresSSL", out string EmailRequiresSSL);
+                chkServerRequiresAuth.Checked = Convert.ToBoolean(EmailRequiresSSL == "true");
+
+                _configurationSettings.TryGetValue("EmailEnableSSL", out string EmailEnableSSL);
+                chkEnableSSL.Checked = Convert.ToBoolean(EmailEnableSSL == "true");
+
+                _configurationSettings.TryGetValue("EmailLoginUserName", out string EmailLoginUserName);
+                txtEmailLoginUserName.Text = EmailLoginUserName;
+
+                _configurationSettings.TryGetValue("EmailLoginUserPassword", out string EmailLoginUserPassword);
+                txtEmailLoginUserPassword.Text = EmailLoginUserPassword;
+                
+                _configurationSettings.TryGetValue("EmailOutgoingPortNumber", out string EmailOutgoingPortNumber);
+                nudEmailOutgoingPortNumber.Value = Convert.ToInt32(EmailOutgoingPortNumber);
             }
         }
 
@@ -663,17 +700,19 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.Add("LocalRetentionMonths", "6");
                 _configurationSettings.Add("LocalRetentionDays", "0");
 
-                _configurationSettings.Add("EmailUseEmailSettings", "true");
+                _configurationSettings.Add("EmailUseEmailSettings", "false");
+                _configurationSettings.Add("EmailFromEmail", "no-reply@yourcompany.com");
                 _configurationSettings.Add("EmailSuccessEmail", "stan@yourcompany.com");
                 _configurationSettings.Add("EmailFailureEmail", "bob@yourcompany.com");
                 _configurationSettings.Add("EmailSMTPOutgoingServer", "smtpout.secureserver.net");
-                _configurationSettings.Add("EmailLoginUserName", "bob@novantconsulting.com");
-                _configurationSettings.Add("EmailLoginUserPassword", "S#u1p!D");
+                _configurationSettings.Add("EmailSMTPPort", "25");
+                _configurationSettings.Add("EmailLoginUserName", "ct@novantconsulting.com");
+                _configurationSettings.Add("EmailLoginUserPassword", "Babylon5");
                 _configurationSettings.Add("EmailRequiresSSL", "true");
                 _configurationSettings.Add("EmailEnableSSL", "true");
                 _configurationSettings.Add("EmailOutgoingPortNumber", "465");
 
-                _configurationSettings.Add("FTPUseFTPSettings", "true");
+                _configurationSettings.Add("FTPUseFTPSettings", "false");
                 _configurationSettings.Add("FTPHostAddress", "");
                 _configurationSettings.Add("FTPUserName", "BobRhinehardt");
                 _configurationSettings.Add("FTPPassword", "S#u1p!D");
@@ -703,17 +742,38 @@ namespace NC.Util.SqlSrv.BackupRestore
 
         private void cmdBackupZips_Click(object sender, EventArgs e)
         {
-
+            fbdBackupZips.SelectedPath = _backupZips;
+            fbdBackupZips.ShowNewFolderButton = true;
+            fbdBackupZips.Description = "Select a path to store the backup .zip files";
+            if (fbdBackupZips.ShowDialog() == DialogResult.OK)
+            {
+                txtBackupZips.Text = fbdBackupZips.SelectedPath + @"\";
+                _backupZips = txtBackupZips.Text;
+            }
         }
 
         private void cmdScratch_Click(object sender, EventArgs e)
         {
-
+            fbdScratch.SelectedPath = _scratchPad;
+            fbdScratch.ShowNewFolderButton = true;
+            fbdBackupZips.Description = "Select a path to store temporary .bak files";
+            if (fbdScratch.ShowDialog() == DialogResult.OK)
+            {
+                txtScratchPad.Text = fbdScratch.SelectedPath + @"\";
+                _scratchPad = txtScratchPad.Text;
+            }
         }
 
         private void cmdSQLDBFiles_Click(object sender, EventArgs e)
         {
-
+            fbdSQLDBFiles.SelectedPath = _DbFileLocation;
+            fbdSQLDBFiles.ShowNewFolderButton = true;
+            fbdSQLDBFiles.Description = "Select the location of the SQL Server data files";
+            if (fbdSQLDBFiles.ShowDialog() == DialogResult.OK)
+            {
+                txtSQLFileLocations.Text = fbdSQLDBFiles.SelectedPath + @"\";
+                _scratchPad = txtSQLFileLocations.Text;
+            }
         }
     }
 }

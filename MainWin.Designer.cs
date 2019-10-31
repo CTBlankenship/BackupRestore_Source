@@ -70,14 +70,14 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.chkConfigureEmails = new System.Windows.Forms.CheckBox();
             this.cmdSendTestEmail = new System.Windows.Forms.Button();
             this.lblPassword = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.txtEmailLoginUserPassword = new System.Windows.Forms.TextBox();
             this.lblUserNameEmail = new System.Windows.Forms.Label();
-            this.txtUserNameEmail = new System.Windows.Forms.TextBox();
+            this.txtEmailLoginUserName = new System.Windows.Forms.TextBox();
             this.lblSMTPServer = new System.Windows.Forms.Label();
             this.lblFromEmail = new System.Windows.Forms.Label();
             this.lblPort = new System.Windows.Forms.Label();
             this.chkEnableSSL = new System.Windows.Forms.CheckBox();
-            this.chkMyServerRequiresAuth = new System.Windows.Forms.CheckBox();
+            this.chkServerRequiresAuth = new System.Windows.Forms.CheckBox();
             this.nudPort = new System.Windows.Forms.NumericUpDown();
             this.txtSMTPServer = new System.Windows.Forms.TextBox();
             this.txtFromEmail = new System.Windows.Forms.TextBox();
@@ -105,7 +105,36 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.fbdScratch = new System.Windows.Forms.FolderBrowserDialog();
             this.txtConnectionString = new System.Windows.Forms.TextBox();
             this.lblConnection = new System.Windows.Forms.Label();
-            this.cmdBuildConnString = new System.Windows.Forms.Button();
+            this.cmdConfigureConn = new System.Windows.Forms.Button();
+            this.tabFTPSchduler = new System.Windows.Forms.TabPage();
+            this.grbFTP = new System.Windows.Forms.GroupBox();
+            this.lblFTPMonths = new System.Windows.Forms.Label();
+            this.lblFTPDays = new System.Windows.Forms.Label();
+            this.nudFTPDays = new System.Windows.Forms.NumericUpDown();
+            this.nudFTPMonths = new System.Windows.Forms.NumericUpDown();
+            this.lblHowLogToKeepFTPFiles = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lblFTPHostAddress = new System.Windows.Forms.Label();
+            this.lblFTPExample = new System.Windows.Forms.Label();
+            this.lblFTPUserName = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.lblFTPPassword = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.nudFTPPort = new System.Windows.Forms.NumericUpDown();
+            this.lblFTPPort = new System.Windows.Forms.Label();
+            this.cboDataConnection = new System.Windows.Forms.ComboBox();
+            this.lblRemoteFolder = new System.Windows.Forms.Label();
+            this.txtRemoteFolder = new System.Windows.Forms.TextBox();
+            this.chkUseFTP = new System.Windows.Forms.CheckBox();
+            this.chkWriteFTPSessionLog = new System.Windows.Forms.CheckBox();
+            this.lblDataConnection = new System.Windows.Forms.Label();
+            this.grpScheduleJog = new System.Windows.Forms.GroupBox();
+            this.chkScheduleToRunDaily = new System.Windows.Forms.CheckBox();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.lblJobStart = new System.Windows.Forms.Label();
+            this.lblWTSJobStart = new System.Windows.Forms.Label();
+            this.nudEmailOutgoingPortNumber = new System.Windows.Forms.NumericUpDown();
+            this.lblEmailOutgoingPortNumber = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.tacMain.SuspendLayout();
             this.tabBackupRestore.SuspendLayout();
@@ -120,6 +149,13 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.gbWorkingDirectories.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDays)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMonths)).BeginInit();
+            this.tabFTPSchduler.SuspendLayout();
+            this.grbFTP.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudFTPDays)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudFTPMonths)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudFTPPort)).BeginInit();
+            this.grpScheduleJog.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEmailOutgoingPortNumber)).BeginInit();
             this.SuspendLayout();
             // 
             // openBakFile
@@ -229,6 +265,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.tacMain.Controls.Add(this.tabBackupRestore);
             this.tacMain.Controls.Add(this.tabRestore);
             this.tacMain.Controls.Add(this.tabConfiguration);
+            this.tacMain.Controls.Add(this.tabFTPSchduler);
             this.tacMain.Location = new System.Drawing.Point(12, 12);
             this.tacMain.Name = "tacMain";
             this.tacMain.SelectedIndex = 0;
@@ -248,7 +285,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // grpBackup
             // 
-            this.grpBackup.Controls.Add(this.cmdBuildConnString);
+            this.grpBackup.Controls.Add(this.cmdConfigureConn);
             this.grpBackup.Controls.Add(this.lblConnection);
             this.grpBackup.Controls.Add(this.txtConnectionString);
             this.grpBackup.Controls.Add(this.lblBackupScript);
@@ -507,17 +544,19 @@ namespace NC.Util.SqlSrv.BackupRestore
             // grpEmailConfiguration
             // 
             this.grpEmailConfiguration.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpEmailConfiguration.Controls.Add(this.lblEmailOutgoingPortNumber);
+            this.grpEmailConfiguration.Controls.Add(this.nudEmailOutgoingPortNumber);
             this.grpEmailConfiguration.Controls.Add(this.chkConfigureEmails);
             this.grpEmailConfiguration.Controls.Add(this.cmdSendTestEmail);
             this.grpEmailConfiguration.Controls.Add(this.lblPassword);
-            this.grpEmailConfiguration.Controls.Add(this.txtPassword);
+            this.grpEmailConfiguration.Controls.Add(this.txtEmailLoginUserPassword);
             this.grpEmailConfiguration.Controls.Add(this.lblUserNameEmail);
-            this.grpEmailConfiguration.Controls.Add(this.txtUserNameEmail);
+            this.grpEmailConfiguration.Controls.Add(this.txtEmailLoginUserName);
             this.grpEmailConfiguration.Controls.Add(this.lblSMTPServer);
             this.grpEmailConfiguration.Controls.Add(this.lblFromEmail);
             this.grpEmailConfiguration.Controls.Add(this.lblPort);
             this.grpEmailConfiguration.Controls.Add(this.chkEnableSSL);
-            this.grpEmailConfiguration.Controls.Add(this.chkMyServerRequiresAuth);
+            this.grpEmailConfiguration.Controls.Add(this.chkServerRequiresAuth);
             this.grpEmailConfiguration.Controls.Add(this.nudPort);
             this.grpEmailConfiguration.Controls.Add(this.txtSMTPServer);
             this.grpEmailConfiguration.Controls.Add(this.txtFromEmail);
@@ -559,12 +598,12 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.lblPassword.TabIndex = 41;
             this.lblPassword.Text = "Password:";
             // 
-            // txtPassword
+            // txtEmailLoginUserPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(262, 115);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(286, 21);
-            this.txtPassword.TabIndex = 40;
+            this.txtEmailLoginUserPassword.Location = new System.Drawing.Point(262, 115);
+            this.txtEmailLoginUserPassword.Name = "txtEmailLoginUserPassword";
+            this.txtEmailLoginUserPassword.Size = new System.Drawing.Size(110, 21);
+            this.txtEmailLoginUserPassword.TabIndex = 40;
             // 
             // lblUserNameEmail
             // 
@@ -575,12 +614,12 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.lblUserNameEmail.TabIndex = 39;
             this.lblUserNameEmail.Text = "User Name / E-Mail:";
             // 
-            // txtUserNameEmail
+            // txtEmailLoginUserName
             // 
-            this.txtUserNameEmail.Location = new System.Drawing.Point(262, 90);
-            this.txtUserNameEmail.Name = "txtUserNameEmail";
-            this.txtUserNameEmail.Size = new System.Drawing.Size(286, 21);
-            this.txtUserNameEmail.TabIndex = 38;
+            this.txtEmailLoginUserName.Location = new System.Drawing.Point(262, 90);
+            this.txtEmailLoginUserName.Name = "txtEmailLoginUserName";
+            this.txtEmailLoginUserName.Size = new System.Drawing.Size(286, 21);
+            this.txtEmailLoginUserName.TabIndex = 38;
             // 
             // lblSMTPServer
             // 
@@ -619,15 +658,15 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.chkEnableSSL.Text = "Enable SSL";
             this.chkEnableSSL.UseVisualStyleBackColor = true;
             // 
-            // chkMyServerRequiresAuth
+            // chkServerRequiresAuth
             // 
-            this.chkMyServerRequiresAuth.AutoSize = true;
-            this.chkMyServerRequiresAuth.Location = new System.Drawing.Point(262, 69);
-            this.chkMyServerRequiresAuth.Name = "chkMyServerRequiresAuth";
-            this.chkMyServerRequiresAuth.Size = new System.Drawing.Size(188, 17);
-            this.chkMyServerRequiresAuth.TabIndex = 33;
-            this.chkMyServerRequiresAuth.Text = "My server requires authentication";
-            this.chkMyServerRequiresAuth.UseVisualStyleBackColor = true;
+            this.chkServerRequiresAuth.AutoSize = true;
+            this.chkServerRequiresAuth.Location = new System.Drawing.Point(262, 69);
+            this.chkServerRequiresAuth.Name = "chkServerRequiresAuth";
+            this.chkServerRequiresAuth.Size = new System.Drawing.Size(188, 17);
+            this.chkServerRequiresAuth.TabIndex = 33;
+            this.chkServerRequiresAuth.Text = "My server requires authentication";
+            this.chkServerRequiresAuth.UseVisualStyleBackColor = true;
             // 
             // nudPort
             // 
@@ -635,6 +674,11 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.nudPort.Name = "nudPort";
             this.nudPort.Size = new System.Drawing.Size(43, 21);
             this.nudPort.TabIndex = 32;
+            this.nudPort.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
             // 
             // txtSMTPServer
             // 
@@ -822,7 +866,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtConnectionString
             // 
-            this.txtConnectionString.Location = new System.Drawing.Point(136, 46);
+            this.txtConnectionString.Location = new System.Drawing.Point(136, 47);
             this.txtConnectionString.Name = "txtConnectionString";
             this.txtConnectionString.ReadOnly = true;
             this.txtConnectionString.Size = new System.Drawing.Size(348, 21);
@@ -831,20 +875,314 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblConnection
             // 
             this.lblConnection.AutoSize = true;
-            this.lblConnection.Location = new System.Drawing.Point(66, 49);
+            this.lblConnection.Location = new System.Drawing.Point(66, 50);
             this.lblConnection.Name = "lblConnection";
             this.lblConnection.Size = new System.Drawing.Size(65, 13);
             this.lblConnection.TabIndex = 14;
             this.lblConnection.Text = "Connection:";
             // 
-            // cmdBuildConnString
+            // cmdConfigureConn
             // 
-            this.cmdBuildConnString.Location = new System.Drawing.Point(490, 44);
-            this.cmdBuildConnString.Name = "cmdBuildConnString";
-            this.cmdBuildConnString.Size = new System.Drawing.Size(67, 23);
-            this.cmdBuildConnString.TabIndex = 15;
-            this.cmdBuildConnString.Text = "Build";
-            this.cmdBuildConnString.UseVisualStyleBackColor = true;
+            this.cmdConfigureConn.Location = new System.Drawing.Point(490, 45);
+            this.cmdConfigureConn.Name = "cmdConfigureConn";
+            this.cmdConfigureConn.Size = new System.Drawing.Size(67, 23);
+            this.cmdConfigureConn.TabIndex = 15;
+            this.cmdConfigureConn.Text = "Configure";
+            this.cmdConfigureConn.UseVisualStyleBackColor = true;
+            // 
+            // tabFTPSchduler
+            // 
+            this.tabFTPSchduler.Controls.Add(this.grpScheduleJog);
+            this.tabFTPSchduler.Controls.Add(this.grbFTP);
+            this.tabFTPSchduler.Location = new System.Drawing.Point(4, 22);
+            this.tabFTPSchduler.Name = "tabFTPSchduler";
+            this.tabFTPSchduler.Padding = new System.Windows.Forms.Padding(3);
+            this.tabFTPSchduler.Size = new System.Drawing.Size(572, 311);
+            this.tabFTPSchduler.TabIndex = 3;
+            this.tabFTPSchduler.Text = "FTP and Scheduler";
+            this.tabFTPSchduler.UseVisualStyleBackColor = true;
+            // 
+            // grbFTP
+            // 
+            this.grbFTP.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grbFTP.Controls.Add(this.lblDataConnection);
+            this.grbFTP.Controls.Add(this.chkWriteFTPSessionLog);
+            this.grbFTP.Controls.Add(this.chkUseFTP);
+            this.grbFTP.Controls.Add(this.lblRemoteFolder);
+            this.grbFTP.Controls.Add(this.txtRemoteFolder);
+            this.grbFTP.Controls.Add(this.lblFTPPort);
+            this.grbFTP.Controls.Add(this.cboDataConnection);
+            this.grbFTP.Controls.Add(this.nudFTPPort);
+            this.grbFTP.Controls.Add(this.lblFTPPassword);
+            this.grbFTP.Controls.Add(this.textBox3);
+            this.grbFTP.Controls.Add(this.lblFTPUserName);
+            this.grbFTP.Controls.Add(this.textBox2);
+            this.grbFTP.Controls.Add(this.lblFTPExample);
+            this.grbFTP.Controls.Add(this.lblFTPHostAddress);
+            this.grbFTP.Controls.Add(this.textBox1);
+            this.grbFTP.Controls.Add(this.lblFTPMonths);
+            this.grbFTP.Controls.Add(this.lblFTPDays);
+            this.grbFTP.Controls.Add(this.nudFTPDays);
+            this.grbFTP.Controls.Add(this.nudFTPMonths);
+            this.grbFTP.Controls.Add(this.lblHowLogToKeepFTPFiles);
+            this.grbFTP.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grbFTP.Location = new System.Drawing.Point(3, 3);
+            this.grbFTP.Name = "grbFTP";
+            this.grbFTP.Size = new System.Drawing.Size(566, 234);
+            this.grbFTP.TabIndex = 0;
+            this.grbFTP.TabStop = false;
+            this.grbFTP.Text = "FTP";
+            // 
+            // lblFTPMonths
+            // 
+            this.lblFTPMonths.AutoSize = true;
+            this.lblFTPMonths.Location = new System.Drawing.Point(217, 23);
+            this.lblFTPMonths.Name = "lblFTPMonths";
+            this.lblFTPMonths.Size = new System.Drawing.Size(42, 13);
+            this.lblFTPMonths.TabIndex = 27;
+            this.lblFTPMonths.Text = "Months";
+            // 
+            // lblFTPDays
+            // 
+            this.lblFTPDays.AutoSize = true;
+            this.lblFTPDays.Location = new System.Drawing.Point(302, 23);
+            this.lblFTPDays.Name = "lblFTPDays";
+            this.lblFTPDays.Size = new System.Drawing.Size(31, 13);
+            this.lblFTPDays.TabIndex = 26;
+            this.lblFTPDays.Text = "Days";
+            // 
+            // nudFTPDays
+            // 
+            this.nudFTPDays.Location = new System.Drawing.Point(261, 19);
+            this.nudFTPDays.Name = "nudFTPDays";
+            this.nudFTPDays.Size = new System.Drawing.Size(36, 21);
+            this.nudFTPDays.TabIndex = 25;
+            // 
+            // nudFTPMonths
+            // 
+            this.nudFTPMonths.Location = new System.Drawing.Point(176, 19);
+            this.nudFTPMonths.Name = "nudFTPMonths";
+            this.nudFTPMonths.Size = new System.Drawing.Size(36, 21);
+            this.nudFTPMonths.TabIndex = 24;
+            // 
+            // lblHowLogToKeepFTPFiles
+            // 
+            this.lblHowLogToKeepFTPFiles.AutoSize = true;
+            this.lblHowLogToKeepFTPFiles.Location = new System.Drawing.Point(17, 23);
+            this.lblHowLogToKeepFTPFiles.Name = "lblHowLogToKeepFTPFiles";
+            this.lblHowLogToKeepFTPFiles.Size = new System.Drawing.Size(139, 13);
+            this.lblHowLogToKeepFTPFiles.TabIndex = 23;
+            this.lblHowLogToKeepFTPFiles.Text = "How long to keep FTP Files:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(109, 48);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(295, 21);
+            this.textBox1.TabIndex = 28;
+            // 
+            // lblFTPHostAddress
+            // 
+            this.lblFTPHostAddress.AutoSize = true;
+            this.lblFTPHostAddress.Location = new System.Drawing.Point(32, 51);
+            this.lblFTPHostAddress.Name = "lblFTPHostAddress";
+            this.lblFTPHostAddress.Size = new System.Drawing.Size(75, 13);
+            this.lblFTPHostAddress.TabIndex = 29;
+            this.lblFTPHostAddress.Text = "Host Address:";
+            // 
+            // lblFTPExample
+            // 
+            this.lblFTPExample.AutoSize = true;
+            this.lblFTPExample.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblFTPExample.Location = new System.Drawing.Point(109, 72);
+            this.lblFTPExample.Name = "lblFTPExample";
+            this.lblFTPExample.Size = new System.Drawing.Size(246, 13);
+            this.lblFTPExample.TabIndex = 30;
+            this.lblFTPExample.Text = "e.g. MyFTPServer.com or ftp://MyFTPServer.com";
+            // 
+            // lblFTPUserName
+            // 
+            this.lblFTPUserName.AutoSize = true;
+            this.lblFTPUserName.Location = new System.Drawing.Point(44, 97);
+            this.lblFTPUserName.Name = "lblFTPUserName";
+            this.lblFTPUserName.Size = new System.Drawing.Size(63, 13);
+            this.lblFTPUserName.TabIndex = 32;
+            this.lblFTPUserName.Text = "User Name:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(109, 94);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(91, 21);
+            this.textBox2.TabIndex = 31;
+            // 
+            // lblFTPPassword
+            // 
+            this.lblFTPPassword.AutoSize = true;
+            this.lblFTPPassword.Location = new System.Drawing.Point(206, 97);
+            this.lblFTPPassword.Name = "lblFTPPassword";
+            this.lblFTPPassword.Size = new System.Drawing.Size(57, 13);
+            this.lblFTPPassword.TabIndex = 34;
+            this.lblFTPPassword.Text = "Password:";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(265, 94);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(139, 21);
+            this.textBox3.TabIndex = 33;
+            // 
+            // nudFTPPort
+            // 
+            this.nudFTPPort.Location = new System.Drawing.Point(109, 123);
+            this.nudFTPPort.Name = "nudFTPPort";
+            this.nudFTPPort.Size = new System.Drawing.Size(70, 21);
+            this.nudFTPPort.TabIndex = 35;
+            this.nudFTPPort.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            // 
+            // lblFTPPort
+            // 
+            this.lblFTPPort.AutoSize = true;
+            this.lblFTPPort.Location = new System.Drawing.Point(76, 126);
+            this.lblFTPPort.Name = "lblFTPPort";
+            this.lblFTPPort.Size = new System.Drawing.Size(31, 13);
+            this.lblFTPPort.TabIndex = 37;
+            this.lblFTPPort.Text = "Port:";
+            // 
+            // cboDataConnection
+            // 
+            this.cboDataConnection.FormattingEnabled = true;
+            this.cboDataConnection.Location = new System.Drawing.Point(112, 151);
+            this.cboDataConnection.Name = "cboDataConnection";
+            this.cboDataConnection.Size = new System.Drawing.Size(185, 21);
+            this.cboDataConnection.TabIndex = 36;
+            // 
+            // lblRemoteFolder
+            // 
+            this.lblRemoteFolder.AutoSize = true;
+            this.lblRemoteFolder.Location = new System.Drawing.Point(33, 182);
+            this.lblRemoteFolder.Name = "lblRemoteFolder";
+            this.lblRemoteFolder.Size = new System.Drawing.Size(74, 13);
+            this.lblRemoteFolder.TabIndex = 39;
+            this.lblRemoteFolder.Text = "RemoteFolder";
+            // 
+            // txtRemoteFolder
+            // 
+            this.txtRemoteFolder.Location = new System.Drawing.Point(112, 178);
+            this.txtRemoteFolder.Name = "txtRemoteFolder";
+            this.txtRemoteFolder.Size = new System.Drawing.Size(295, 21);
+            this.txtRemoteFolder.TabIndex = 38;
+            // 
+            // chkUseFTP
+            // 
+            this.chkUseFTP.AutoSize = true;
+            this.chkUseFTP.Location = new System.Drawing.Point(35, 0);
+            this.chkUseFTP.Name = "chkUseFTP";
+            this.chkUseFTP.Size = new System.Drawing.Size(15, 14);
+            this.chkUseFTP.TabIndex = 40;
+            this.chkUseFTP.UseVisualStyleBackColor = true;
+            // 
+            // chkWriteFTPSessionLog
+            // 
+            this.chkWriteFTPSessionLog.AutoSize = true;
+            this.chkWriteFTPSessionLog.Location = new System.Drawing.Point(112, 205);
+            this.chkWriteFTPSessionLog.Name = "chkWriteFTPSessionLog";
+            this.chkWriteFTPSessionLog.Size = new System.Drawing.Size(132, 17);
+            this.chkWriteFTPSessionLog.TabIndex = 41;
+            this.chkWriteFTPSessionLog.Text = "Write FTP Session Log";
+            this.chkWriteFTPSessionLog.UseVisualStyleBackColor = true;
+            // 
+            // lblDataConnection
+            // 
+            this.lblDataConnection.AutoSize = true;
+            this.lblDataConnection.Location = new System.Drawing.Point(14, 155);
+            this.lblDataConnection.Name = "lblDataConnection";
+            this.lblDataConnection.Size = new System.Drawing.Size(91, 13);
+            this.lblDataConnection.TabIndex = 42;
+            this.lblDataConnection.Text = "Data Connection:";
+            // 
+            // grpScheduleJog
+            // 
+            this.grpScheduleJog.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpScheduleJog.Controls.Add(this.lblWTSJobStart);
+            this.grpScheduleJog.Controls.Add(this.lblJobStart);
+            this.grpScheduleJog.Controls.Add(this.dateTimePicker1);
+            this.grpScheduleJog.Controls.Add(this.chkScheduleToRunDaily);
+            this.grpScheduleJog.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.grpScheduleJog.Location = new System.Drawing.Point(3, 243);
+            this.grpScheduleJog.Name = "grpScheduleJog";
+            this.grpScheduleJog.Size = new System.Drawing.Size(566, 65);
+            this.grpScheduleJog.TabIndex = 1;
+            this.grpScheduleJog.TabStop = false;
+            this.grpScheduleJog.Text = "Scheduling";
+            // 
+            // chkScheduleToRunDaily
+            // 
+            this.chkScheduleToRunDaily.AutoSize = true;
+            this.chkScheduleToRunDaily.Location = new System.Drawing.Point(68, 2);
+            this.chkScheduleToRunDaily.Name = "chkScheduleToRunDaily";
+            this.chkScheduleToRunDaily.Size = new System.Drawing.Size(164, 17);
+            this.chkScheduleToRunDaily.TabIndex = 43;
+            this.chkScheduleToRunDaily.Text = "Schedule to run this job daily";
+            this.chkScheduleToRunDaily.UseVisualStyleBackColor = true;
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePicker1.Location = new System.Drawing.Point(140, 28);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.ShowUpDown = true;
+            this.dateTimePicker1.Size = new System.Drawing.Size(95, 21);
+            this.dateTimePicker1.TabIndex = 44;
+            // 
+            // lblJobStart
+            // 
+            this.lblJobStart.AutoSize = true;
+            this.lblJobStart.Location = new System.Drawing.Point(78, 32);
+            this.lblJobStart.Name = "lblJobStart";
+            this.lblJobStart.Size = new System.Drawing.Size(55, 13);
+            this.lblJobStart.TabIndex = 43;
+            this.lblJobStart.Text = "Job Start:";
+            // 
+            // lblWTSJobStart
+            // 
+            this.lblWTSJobStart.AutoSize = true;
+            this.lblWTSJobStart.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblWTSJobStart.Location = new System.Drawing.Point(241, 32);
+            this.lblWTSJobStart.Name = "lblWTSJobStart";
+            this.lblWTSJobStart.Size = new System.Drawing.Size(205, 13);
+            this.lblWTSJobStart.TabIndex = 45;
+            this.lblWTSJobStart.Text = "Windows Task Scheduler will start the job";
+            // 
+            // nudEmailOutgoingPortNumber
+            // 
+            this.nudEmailOutgoingPortNumber.Location = new System.Drawing.Point(503, 115);
+            this.nudEmailOutgoingPortNumber.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudEmailOutgoingPortNumber.Name = "nudEmailOutgoingPortNumber";
+            this.nudEmailOutgoingPortNumber.Size = new System.Drawing.Size(43, 21);
+            this.nudEmailOutgoingPortNumber.TabIndex = 44;
+            this.nudEmailOutgoingPortNumber.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            // 
+            // lblEmailOutgoingPortNumber
+            // 
+            this.lblEmailOutgoingPortNumber.AutoSize = true;
+            this.lblEmailOutgoingPortNumber.Location = new System.Drawing.Point(378, 119);
+            this.lblEmailOutgoingPortNumber.Name = "lblEmailOutgoingPortNumber";
+            this.lblEmailOutgoingPortNumber.Size = new System.Drawing.Size(118, 13);
+            this.lblEmailOutgoingPortNumber.TabIndex = 45;
+            this.lblEmailOutgoingPortNumber.Text = "Outgoing Port Number:";
             // 
             // MainWin
             // 
@@ -884,6 +1222,15 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.gbWorkingDirectories.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDays)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMonths)).EndInit();
+            this.tabFTPSchduler.ResumeLayout(false);
+            this.grbFTP.ResumeLayout(false);
+            this.grbFTP.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudFTPDays)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudFTPMonths)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudFTPPort)).EndInit();
+            this.grpScheduleJog.ResumeLayout(false);
+            this.grpScheduleJog.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEmailOutgoingPortNumber)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -952,20 +1299,49 @@ namespace NC.Util.SqlSrv.BackupRestore
         private System.Windows.Forms.TextBox txtSuccessEmail;
         private System.Windows.Forms.Button cmdSendTestEmail;
         private System.Windows.Forms.Label lblPassword;
-        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.TextBox txtEmailLoginUserPassword;
         private System.Windows.Forms.Label lblUserNameEmail;
-        private System.Windows.Forms.TextBox txtUserNameEmail;
+        private System.Windows.Forms.TextBox txtEmailLoginUserName;
         private System.Windows.Forms.Label lblSMTPServer;
         private System.Windows.Forms.Label lblFromEmail;
         private System.Windows.Forms.Label lblPort;
         private System.Windows.Forms.CheckBox chkEnableSSL;
-        private System.Windows.Forms.CheckBox chkMyServerRequiresAuth;
+        private System.Windows.Forms.CheckBox chkServerRequiresAuth;
         private System.Windows.Forms.NumericUpDown nudPort;
         private System.Windows.Forms.TextBox txtSMTPServer;
         private System.Windows.Forms.TextBox txtFromEmail;
         private System.Windows.Forms.CheckBox chkConfigureEmails;
-        private System.Windows.Forms.Button cmdBuildConnString;
+        private System.Windows.Forms.Button cmdConfigureConn;
         private System.Windows.Forms.Label lblConnection;
         private System.Windows.Forms.TextBox txtConnectionString;
+        private System.Windows.Forms.TabPage tabFTPSchduler;
+        private System.Windows.Forms.GroupBox grpScheduleJog;
+        private System.Windows.Forms.Label lblWTSJobStart;
+        private System.Windows.Forms.Label lblJobStart;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.CheckBox chkScheduleToRunDaily;
+        private System.Windows.Forms.GroupBox grbFTP;
+        private System.Windows.Forms.Label lblDataConnection;
+        private System.Windows.Forms.CheckBox chkWriteFTPSessionLog;
+        private System.Windows.Forms.CheckBox chkUseFTP;
+        private System.Windows.Forms.Label lblRemoteFolder;
+        private System.Windows.Forms.TextBox txtRemoteFolder;
+        private System.Windows.Forms.Label lblFTPPort;
+        private System.Windows.Forms.ComboBox cboDataConnection;
+        private System.Windows.Forms.NumericUpDown nudFTPPort;
+        private System.Windows.Forms.Label lblFTPPassword;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label lblFTPUserName;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label lblFTPExample;
+        private System.Windows.Forms.Label lblFTPHostAddress;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label lblFTPMonths;
+        private System.Windows.Forms.Label lblFTPDays;
+        private System.Windows.Forms.NumericUpDown nudFTPDays;
+        private System.Windows.Forms.NumericUpDown nudFTPMonths;
+        private System.Windows.Forms.Label lblHowLogToKeepFTPFiles;
+        private System.Windows.Forms.Label lblEmailOutgoingPortNumber;
+        private System.Windows.Forms.NumericUpDown nudEmailOutgoingPortNumber;
     }
 }
