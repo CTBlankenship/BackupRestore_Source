@@ -84,6 +84,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -96,6 +97,7 @@
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="CommandLineHelper.cs" />
+    <Compile Include="Cryptography.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MainWin.cs">
       <SubType>Form</SubType>

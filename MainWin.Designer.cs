@@ -61,6 +61,11 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.lblLogFile = new System.Windows.Forms.Label();
             this.cmdShow = new System.Windows.Forms.Button();
             this.cmdViewInNotepad = new System.Windows.Forms.Button();
+            this.lblHowLongTokeep = new System.Windows.Forms.Label();
+            this.nudMonths = new System.Windows.Forms.NumericUpDown();
+            this.lblMonths = new System.Windows.Forms.Label();
+            this.nudDays = new System.Windows.Forms.NumericUpDown();
+            this.lblDays = new System.Windows.Forms.Label();
             this.grpBackup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -68,10 +73,17 @@ namespace NC.Util.SqlSrv.BackupRestore
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.grpStatus.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMonths)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDays)).BeginInit();
             this.SuspendLayout();
             // 
             // grpBackup
             // 
+            this.grpBackup.Controls.Add(this.lblDays);
+            this.grpBackup.Controls.Add(this.nudDays);
+            this.grpBackup.Controls.Add(this.lblMonths);
+            this.grpBackup.Controls.Add(this.nudMonths);
+            this.grpBackup.Controls.Add(this.lblHowLongTokeep);
             this.grpBackup.Controls.Add(this.cmdShrinkLogFile);
             this.grpBackup.Controls.Add(this.pictureBox1);
             this.grpBackup.Controls.Add(this.cmbBackupMode);
@@ -394,6 +406,47 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.cmdViewInNotepad.UseVisualStyleBackColor = true;
             this.cmdViewInNotepad.Click += new System.EventHandler(this.cmdViewInNotepad_Click);
             // 
+            // lblHowLongTokeep
+            // 
+            this.lblHowLongTokeep.AutoSize = true;
+            this.lblHowLongTokeep.Location = new System.Drawing.Point(6, 136);
+            this.lblHowLongTokeep.Name = "lblHowLongTokeep";
+            this.lblHowLongTokeep.Size = new System.Drawing.Size(149, 13);
+            this.lblHowLongTokeep.TabIndex = 8;
+            this.lblHowLongTokeep.Text = "How long to keep backup files";
+            // 
+            // nudMonths
+            // 
+            this.nudMonths.Location = new System.Drawing.Point(162, 134);
+            this.nudMonths.Name = "nudMonths";
+            this.nudMonths.Size = new System.Drawing.Size(36, 21);
+            this.nudMonths.TabIndex = 9;
+            // 
+            // lblMonths
+            // 
+            this.lblMonths.AutoSize = true;
+            this.lblMonths.Location = new System.Drawing.Point(201, 136);
+            this.lblMonths.Name = "lblMonths";
+            this.lblMonths.Size = new System.Drawing.Size(42, 13);
+            this.lblMonths.TabIndex = 10;
+            this.lblMonths.Text = "Months";
+            // 
+            // nudDays
+            // 
+            this.nudDays.Location = new System.Drawing.Point(250, 134);
+            this.nudDays.Name = "nudDays";
+            this.nudDays.Size = new System.Drawing.Size(36, 21);
+            this.nudDays.TabIndex = 11;
+            // 
+            // lblDays
+            // 
+            this.lblDays.AutoSize = true;
+            this.lblDays.Location = new System.Drawing.Point(292, 136);
+            this.lblDays.Name = "lblDays";
+            this.lblDays.Size = new System.Drawing.Size(31, 13);
+            this.lblDays.TabIndex = 12;
+            this.lblDays.Text = "Days";
+            // 
             // MainWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -424,6 +477,8 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.grpStatus.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMonths)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDays)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -463,5 +518,10 @@ namespace NC.Util.SqlSrv.BackupRestore
         private System.Windows.Forms.Label lblLogFile;
         private System.Windows.Forms.Button cmdShow;
         private System.Windows.Forms.Button cmdViewInNotepad;
+        private System.Windows.Forms.Label lblDays;
+        private System.Windows.Forms.NumericUpDown nudDays;
+        private System.Windows.Forms.Label lblMonths;
+        private System.Windows.Forms.NumericUpDown nudMonths;
+        private System.Windows.Forms.Label lblHowLongTokeep;
     }
 }

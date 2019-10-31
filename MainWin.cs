@@ -4,19 +4,20 @@ using System.ComponentModel;
 using System.Data;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using System.Configuration;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Common;
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing.Text;
 using System.IO;
 using System.IO.Compression;
-
+using System.Text;
+using NC.Util.SqlSrv.BackupRestore;
 
 // --------------------------------------------------------------------
 // To Use:
 // -------
-// 1. Update App.Config with the working directories for your application
+// 1. Change directories to match your own directory structure.
 // 2. Update the connection strings which apply to your situation
 // 3. Set the name of the databases to only those the user should be able
 //    to backup and restore
@@ -39,22 +40,38 @@ namespace NC.Util.SqlSrv.BackupRestore
         private SqlConnection _sqlConn;
         private Server _sqlServer;
         private List<Database> _dbList = new List<Database>();
+        // ------------------------------------------------------
+        // #1: Change directory names to match your configuration
+        // ------------------------------------------------------
         private string _backupZips = @"C:\NovantBackups\SQLBackups\";
         private string _scratchPad = @"C:\NovantBackups\Scratch\";
         private string _DbFileLocation = @"C:\Program Files\Microsoft SQL Server\MSSQL13.SQLSVR_2016\MSSQL\DATA\";
+        // ----------------------------------------------------------
+
         private string _zipFileName = String.Empty;
         private string _databaseFileName = String.Empty;
         private string _databaseLogFileName = string.Empty;
         private string _messageBoxCaption = "SQL Backup and Restore Utility";
+
+        // -----------------------------------------------------------------
+        // Encryption key has to be 16 characters in length ...
+        // If you use this app, change your encryption key to something else
+        // -----------------------------------------------------------------
+        private string _encryptionKey = "LazyDog";
+        private Dictionary<string,string> _configurationSettings = new Dictionary<string, string>();
+        private string _settingsFileName = Environment.CurrentDirectory + @"\ConfigurationSettings.txt";
 
         public MainWin()
         {
             InitializeComponent();
             openBakFile.InitialDirectory = Application.StartupPath;
             saveBakFile.InitialDirectory = Application.StartupPath;
-
+            InitializeConfigurationSettings();
             try
             {
+                // --------------------------------------------------------------
+                // #2: Update the connection strings which apply to your situation
+                // --------------------------------------------------------------
                 switch (Environment.MachineName)
                 {
                     case "CTB-MAXIMUS-PC":
@@ -72,7 +89,9 @@ namespace NC.Util.SqlSrv.BackupRestore
 
                 //----------------
                 //CTB: 2019/10/29:
-                //----------------
+                //-----------------------------------------------------
+                // #3: Set the name of the databases to only those the
+                //     user should be able to backup and restore
                 // Use this to limit the DB list to only those you want
                 // the executor of this program to have access to
                 // ----------------------------------------------------
@@ -88,7 +107,12 @@ namespace NC.Util.SqlSrv.BackupRestore
                 cmbBackupDb.DataSource = _dbList;
                 cmbBackupMode.SelectedIndex = 0;
                 _dbName = cmbBackupDb.Text;
+
+                InitializeConfigurationSettings();
+                ReadConfigurationSettings();
                 GenerateApplicationFileNames(_dbName);
+
+
                 txtFileToBackUp.Text = _backupFileName;
 
             }
@@ -568,6 +592,92 @@ namespace NC.Util.SqlSrv.BackupRestore
         private void cmdViewInNotepad_Click(object sender, EventArgs e)
         {
             CommandLineHelper.LaunchNotepadToViewLogFile();
+        }
+
+        private string DecryptConfigurationSettings()
+        {
+            string decryptedString = string.Empty;
+
+            if (@File.Exists(Environment.CurrentDirectory + @"\DoNotEditMe_ConfigurationSettings.txt"))
+            {
+
+            }
+            return decryptedString;
+        }
+
+        private void SaveConfigurationSettings()
+        {
+        }
+
+        private void ReadConfigurationSettings()
+        {
+            if (File.Exists(_settingsFileName))
+            {
+                _configurationSettings.Clear();
+                string[] configurationLines = File.ReadAllLines(_settingsFileName);
+                string configLine = String.Empty;
+                string[] splitKeyValue;
+
+                string splitValue;
+                string decryptedValue;
+                string decryptedKey;
+
+
+                foreach (string configSettingPair in configurationLines)
+                {
+                    splitKeyValue = configSettingPair.Split(':');
+                    decryptedKey = splitKeyValue[0];
+
+                    splitValue = splitKeyValue[1]; // this is still encrypted
+                    decryptedValue = CryptographyCBC.DecryptString(splitValue, _encryptionKey);
+                    
+                    _configurationSettings.Add(decryptedKey, decryptedValue);
+                }
+            }
+        }
+
+        private void InitializeConfigurationSettings()
+        {
+
+            if (!File.Exists(_settingsFileName))
+            {
+                _configurationSettings.Add("BackupZips", @"C:\NovantBackups\SQLBackups\");
+                _configurationSettings.Add("ScratchPad", @"C:\NovantBackups\Scratch\");
+                _configurationSettings.Add("DbFileLocations", @"C:\Program Files\Microsoft SQL Server\MSSQL13.SQLSVR_2016\MSSQL\DATA\");
+                _configurationSettings.Add("EmailSuccessEmail", "stan@yourcompany.com");
+                _configurationSettings.Add("EmailFailureEmail", "bob@yourcompany.com");
+                _configurationSettings.Add("EmailSMTPOutgoingServer", "smtpout.secureserver.net");
+                _configurationSettings.Add("EmailLoginUserName", "bob@novantconsulting.com");
+                _configurationSettings.Add("EmailLoginUserPassword", "S#u1p!D");
+                _configurationSettings.Add("EmailRequiresSSL", "true");
+                _configurationSettings.Add("EmailOutgoingPortNumber", "465");
+                _configurationSettings.Add("FTPHostAddress", "");
+                _configurationSettings.Add("FTPUserName", "BobRhinehardt");
+                _configurationSettings.Add("FTPPassword", "S#u1p!D");
+                _configurationSettings.Add("FTPPort", "21");
+                _configurationSettings.Add("FTPDataConnection", "Passive(PASV)");
+                _configurationSettings.Add("FTPRemoteFolder", @"ftp://ftp.addressyourcompany");
+                _configurationSettings.Add("FTPWriteSessionToLog", "true");
+                _configurationSettings.Add("FTPRetentionsMonths", "6");
+                _configurationSettings.Add("FTPRetentionDays", "0");
+                _configurationSettings.Add("LocalRetentionMonths", "6");
+                _configurationSettings.Add("LocalRetention", "0");
+
+                FileStream fs = new FileStream(_settingsFileName, FileMode.Append);
+
+                foreach (KeyValuePair<string, string> setting in _configurationSettings)
+                {
+
+                    // -------------------------------------------------------
+                    // This time let's encrypt only the data, delimit with a :
+                    // -------------------------------------------------------
+                    string encryptedConfigLine = setting.Key + ":" + CryptographyCBC.EncryptString(setting.Value, _encryptionKey) +
+                                                 Environment.NewLine;
+                    byte[] bConfigLine = Encoding.Default.GetBytes(encryptedConfigLine);
+                    fs.Write(bConfigLine, 0, bConfigLine.Length);
+                }
+                fs.Close();
+            }
         }
     }
 }
