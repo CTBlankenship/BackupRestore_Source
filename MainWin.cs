@@ -644,6 +644,9 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.TryGetValue("EmailFailureEmail", out string failureEmail);
                 txtFailureEmail.Text = failureEmail;
 
+                _configurationSettings.TryGetValue("ConnectionString", out string connectionString);
+                txtConnectionString.Text = connectionString;
+
 
             }
         }
@@ -656,9 +659,9 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.Add("BackupZips", @"C:\NovantBackups\SQLBackups\");
                 _configurationSettings.Add("ScratchPad", @"C:\NovantBackups\Scratch\");
                 _configurationSettings.Add("DbFileLocations", @"C:\Program Files\Microsoft SQL Server\MSSQL13.SQLSVR_2016\MSSQL\DATA\");
-                _configurationSettings.Add("ConnectionString", @"C:\Program Files\Microsoft SQL Server\MSSQL13.SQLSVR_2016\MSSQL\DATA\");
-                _configurationSettings.Add("LocalRetentionMonths", "6");
                 _configurationSettings.Add("ConnectionString", "Server=CTB-MAXIMUS-PC;Database=master;Trusted_Connection=True");
+                _configurationSettings.Add("LocalRetentionMonths", "6");
+                _configurationSettings.Add("LocalRetentionDays", "0");
 
                 _configurationSettings.Add("EmailUseEmailSettings", "true");
                 _configurationSettings.Add("EmailSuccessEmail", "stan@yourcompany.com");

@@ -103,6 +103,9 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.fbdBackupZips = new System.Windows.Forms.FolderBrowserDialog();
             this.fbdSQLDBFiles = new System.Windows.Forms.FolderBrowserDialog();
             this.fbdScratch = new System.Windows.Forms.FolderBrowserDialog();
+            this.txtConnectionString = new System.Windows.Forms.TextBox();
+            this.lblConnection = new System.Windows.Forms.Label();
+            this.cmdBuildConnString = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.tacMain.SuspendLayout();
             this.tabBackupRestore.SuspendLayout();
@@ -245,6 +248,9 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // grpBackup
             // 
+            this.grpBackup.Controls.Add(this.cmdBuildConnString);
+            this.grpBackup.Controls.Add(this.lblConnection);
+            this.grpBackup.Controls.Add(this.txtConnectionString);
             this.grpBackup.Controls.Add(this.lblBackupScript);
             this.grpBackup.Controls.Add(this.txtBackupScript);
             this.grpBackup.Controls.Add(this.cmdShrinkLogFile);
@@ -286,7 +292,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // cmdShrinkLogFile
             // 
-            this.cmdShrinkLogFile.Location = new System.Drawing.Point(134, 141);
+            this.cmdShrinkLogFile.Location = new System.Drawing.Point(136, 159);
             this.cmdShrinkLogFile.Name = "cmdShrinkLogFile";
             this.cmdShrinkLogFile.Size = new System.Drawing.Size(96, 23);
             this.cmdShrinkLogFile.TabIndex = 7;
@@ -311,14 +317,14 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.cmbBackupMode.Items.AddRange(new object[] {
             "Overwrite",
             "Append"});
-            this.cmbBackupMode.Location = new System.Drawing.Point(135, 111);
+            this.cmbBackupMode.Location = new System.Drawing.Point(136, 129);
             this.cmbBackupMode.Name = "cmbBackupMode";
             this.cmbBackupMode.Size = new System.Drawing.Size(125, 21);
             this.cmbBackupMode.TabIndex = 5;
             // 
             // btnBackupDb
             // 
-            this.btnBackupDb.Location = new System.Drawing.Point(236, 141);
+            this.btnBackupDb.Location = new System.Drawing.Point(236, 159);
             this.btnBackupDb.Name = "btnBackupDb";
             this.btnBackupDb.Size = new System.Drawing.Size(67, 23);
             this.btnBackupDb.TabIndex = 3;
@@ -327,7 +333,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtFileToBackUp
             // 
-            this.txtFileToBackUp.Location = new System.Drawing.Point(135, 84);
+            this.txtFileToBackUp.Location = new System.Drawing.Point(136, 102);
             this.txtFileToBackUp.Name = "txtFileToBackUp";
             this.txtFileToBackUp.ReadOnly = true;
             this.txtFileToBackUp.Size = new System.Drawing.Size(423, 21);
@@ -338,7 +344,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.cmbBackupDb.DisplayMember = "Name";
             this.cmbBackupDb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBackupDb.FormattingEnabled = true;
-            this.cmbBackupDb.Location = new System.Drawing.Point(135, 57);
+            this.cmbBackupDb.Location = new System.Drawing.Point(136, 75);
             this.cmbBackupDb.Name = "cmbBackupDb";
             this.cmbBackupDb.Size = new System.Drawing.Size(184, 21);
             this.cmbBackupDb.TabIndex = 1;
@@ -348,7 +354,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblBackupMode
             // 
             this.lblBackupMode.AutoSize = true;
-            this.lblBackupMode.Location = new System.Drawing.Point(56, 114);
+            this.lblBackupMode.Location = new System.Drawing.Point(56, 132);
             this.lblBackupMode.Name = "lblBackupMode";
             this.lblBackupMode.Size = new System.Drawing.Size(74, 13);
             this.lblBackupMode.TabIndex = 0;
@@ -357,7 +363,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblBackupFileName
             // 
             this.lblBackupFileName.AutoSize = true;
-            this.lblBackupFileName.Location = new System.Drawing.Point(36, 87);
+            this.lblBackupFileName.Location = new System.Drawing.Point(36, 105);
             this.lblBackupFileName.Name = "lblBackupFileName";
             this.lblBackupFileName.Size = new System.Drawing.Size(94, 13);
             this.lblBackupFileName.TabIndex = 0;
@@ -366,7 +372,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblDb
             // 
             this.lblDb.AutoSize = true;
-            this.lblDb.Location = new System.Drawing.Point(75, 60);
+            this.lblDb.Location = new System.Drawing.Point(75, 78);
             this.lblDb.Name = "lblDb";
             this.lblDb.Size = new System.Drawing.Size(55, 13);
             this.lblDb.TabIndex = 0;
@@ -814,6 +820,32 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.lblHowLongTokeep.TabIndex = 13;
             this.lblHowLongTokeep.Text = "How long to keep backup files:";
             // 
+            // txtConnectionString
+            // 
+            this.txtConnectionString.Location = new System.Drawing.Point(136, 46);
+            this.txtConnectionString.Name = "txtConnectionString";
+            this.txtConnectionString.ReadOnly = true;
+            this.txtConnectionString.Size = new System.Drawing.Size(348, 21);
+            this.txtConnectionString.TabIndex = 13;
+            // 
+            // lblConnection
+            // 
+            this.lblConnection.AutoSize = true;
+            this.lblConnection.Location = new System.Drawing.Point(66, 49);
+            this.lblConnection.Name = "lblConnection";
+            this.lblConnection.Size = new System.Drawing.Size(65, 13);
+            this.lblConnection.TabIndex = 14;
+            this.lblConnection.Text = "Connection:";
+            // 
+            // cmdBuildConnString
+            // 
+            this.cmdBuildConnString.Location = new System.Drawing.Point(490, 44);
+            this.cmdBuildConnString.Name = "cmdBuildConnString";
+            this.cmdBuildConnString.Size = new System.Drawing.Size(67, 23);
+            this.cmdBuildConnString.TabIndex = 15;
+            this.cmdBuildConnString.Text = "Build";
+            this.cmdBuildConnString.UseVisualStyleBackColor = true;
+            // 
             // MainWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -932,5 +964,8 @@ namespace NC.Util.SqlSrv.BackupRestore
         private System.Windows.Forms.TextBox txtSMTPServer;
         private System.Windows.Forms.TextBox txtFromEmail;
         private System.Windows.Forms.CheckBox chkConfigureEmails;
+        private System.Windows.Forms.Button cmdBuildConnString;
+        private System.Windows.Forms.Label lblConnection;
+        private System.Windows.Forms.TextBox txtConnectionString;
     }
 }
