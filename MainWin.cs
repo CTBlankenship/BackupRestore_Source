@@ -13,6 +13,9 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using NC.Util.SqlSrv.BackupRestore;
+using System.Net;
+using System.Net.Mail;
+
 
 // --------------------------------------------------------------------
 // To Use:
@@ -59,7 +62,7 @@ namespace NC.Util.SqlSrv.BackupRestore
         // -----------------------------------------------------------------
         private string _encryptionKey = "LazyDog";
         private Dictionary<string,string> _configurationSettings = new Dictionary<string, string>();
-        private string _settingsFileName = Environment.CurrentDirectory + @"\ConfigurationSettings.txt";
+        private string _settingsFileName = Environment.CurrentDirectory + @"\ConfigurationSettings.sbu";
 
         public MainWin()
         {
@@ -701,16 +704,15 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.Add("LocalRetentionDays", "0");
 
                 _configurationSettings.Add("EmailUseEmailSettings", "false");
-                _configurationSettings.Add("EmailFromEmail", "no-reply@yourcompany.com");
-                _configurationSettings.Add("EmailSuccessEmail", "stan@yourcompany.com");
-                _configurationSettings.Add("EmailFailureEmail", "bob@yourcompany.com");
+                _configurationSettings.Add("EmailFromEmail", "no-reply@novantconsulting.com");
+                _configurationSettings.Add("EmailSuccessEmail", "ct@novantconsulting.com");
+                _configurationSettings.Add("EmailFailureEmail", "ct@novantconsulting.com");
                 _configurationSettings.Add("EmailSMTPOutgoingServer", "smtpout.secureserver.net");
-                _configurationSettings.Add("EmailSMTPPort", "25");
+                _configurationSettings.Add("EmailOutgoingPortNumber", "25");
                 _configurationSettings.Add("EmailLoginUserName", "ct@novantconsulting.com");
                 _configurationSettings.Add("EmailLoginUserPassword", "Babylon5");
                 _configurationSettings.Add("EmailRequiresSSL", "true");
                 _configurationSettings.Add("EmailEnableSSL", "true");
-                _configurationSettings.Add("EmailOutgoingPortNumber", "465");
 
                 _configurationSettings.Add("FTPUseFTPSettings", "false");
                 _configurationSettings.Add("FTPHostAddress", "");
@@ -773,6 +775,53 @@ namespace NC.Util.SqlSrv.BackupRestore
             {
                 txtSQLFileLocations.Text = fbdSQLDBFiles.SelectedPath + @"\";
                 _scratchPad = txtSQLFileLocations.Text;
+            }
+        }
+
+        private void cmdSendTestEmail_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SmtpClient smtp = new SmtpClient
+                {
+                    Host = txtSMTPServer.Text,
+                    Port = 25, //Convert.ToInt32(nudEmailOutgoingPortNumber.Value),
+                    EnableSsl = chkEnableSSL.Checked,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(txtEmailLoginUserName.Text, txtEmailLoginUserPassword.Text),
+                    Timeout = 30000, // 30 seconds
+                    DeliveryMethod = SmtpDeliveryMethod.Network
+                };
+
+                MailMessage message = new MailMessage
+                {
+                    From = new MailAddress(txtFromEmail.Text),
+                    Subject = "Test message from SQL Backup / Restore Utility",
+                    IsBodyHtml = true,
+                    Body = "This is a test ... and only a test!"
+                };
+                message.To.Add(new MailAddress(txtSuccessEmail.Text));
+
+                txtLogFile.Text += "Test message send begun ..." + Environment.NewLine;
+                Logger.LogMessage("Test message send begun ...");
+
+                // ================
+                smtp.Send(message);
+                // ================
+
+                txtLogFile.Text += "Test message send complete ... success!" + Environment.NewLine;
+                Logger.LogMessage("Test message send complete ... success!");
+                Logger.LogMessage("----------");
+            }
+            catch (Exception ex)
+            {
+                txtLogFile.Text += "Test message attempt failed!" + Environment.NewLine; 
+                txtLogFile.Text += ex.ToString() + Environment.NewLine;
+                Logger.LogMessage("Test meesage attempt failed!");
+                Logger.LogMessage(ex.ToString());
+                Logger.LogMessage("----------");
+
+                MessageBox.Show(ex.ToString(), _messageBoxCaption);
             }
         }
     }

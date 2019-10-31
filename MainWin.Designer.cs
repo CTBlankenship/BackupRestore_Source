@@ -78,7 +78,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.lblPort = new System.Windows.Forms.Label();
             this.chkEnableSSL = new System.Windows.Forms.CheckBox();
             this.chkServerRequiresAuth = new System.Windows.Forms.CheckBox();
-            this.nudPort = new System.Windows.Forms.NumericUpDown();
+            this.nudEmailOutgoingPortNumber = new System.Windows.Forms.NumericUpDown();
             this.txtSMTPServer = new System.Windows.Forms.TextBox();
             this.txtFromEmail = new System.Windows.Forms.TextBox();
             this.lblSuccessEmail = new System.Windows.Forms.Label();
@@ -133,8 +133,6 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.lblJobStart = new System.Windows.Forms.Label();
             this.lblWTSJobStart = new System.Windows.Forms.Label();
-            this.nudEmailOutgoingPortNumber = new System.Windows.Forms.NumericUpDown();
-            this.lblEmailOutgoingPortNumber = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.tacMain.SuspendLayout();
             this.tabBackupRestore.SuspendLayout();
@@ -145,7 +143,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabConfiguration.SuspendLayout();
             this.grpEmailConfiguration.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudPort)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEmailOutgoingPortNumber)).BeginInit();
             this.gbWorkingDirectories.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDays)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMonths)).BeginInit();
@@ -155,7 +153,6 @@ namespace NC.Util.SqlSrv.BackupRestore
             ((System.ComponentModel.ISupportInitialize)(this.nudFTPMonths)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudFTPPort)).BeginInit();
             this.grpScheduleJog.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudEmailOutgoingPortNumber)).BeginInit();
             this.SuspendLayout();
             // 
             // openBakFile
@@ -544,8 +541,6 @@ namespace NC.Util.SqlSrv.BackupRestore
             // grpEmailConfiguration
             // 
             this.grpEmailConfiguration.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.grpEmailConfiguration.Controls.Add(this.lblEmailOutgoingPortNumber);
-            this.grpEmailConfiguration.Controls.Add(this.nudEmailOutgoingPortNumber);
             this.grpEmailConfiguration.Controls.Add(this.chkConfigureEmails);
             this.grpEmailConfiguration.Controls.Add(this.cmdSendTestEmail);
             this.grpEmailConfiguration.Controls.Add(this.lblPassword);
@@ -557,7 +552,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.grpEmailConfiguration.Controls.Add(this.lblPort);
             this.grpEmailConfiguration.Controls.Add(this.chkEnableSSL);
             this.grpEmailConfiguration.Controls.Add(this.chkServerRequiresAuth);
-            this.grpEmailConfiguration.Controls.Add(this.nudPort);
+            this.grpEmailConfiguration.Controls.Add(this.nudEmailOutgoingPortNumber);
             this.grpEmailConfiguration.Controls.Add(this.txtSMTPServer);
             this.grpEmailConfiguration.Controls.Add(this.txtFromEmail);
             this.grpEmailConfiguration.Controls.Add(this.lblSuccessEmail);
@@ -588,11 +583,12 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.cmdSendTestEmail.TabIndex = 42;
             this.cmdSendTestEmail.Text = "Send Test Email";
             this.cmdSendTestEmail.UseVisualStyleBackColor = true;
+            this.cmdSendTestEmail.Click += new System.EventHandler(this.cmdSendTestEmail_Click);
             // 
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(201, 118);
+            this.lblPassword.Location = new System.Drawing.Point(201, 120);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(57, 13);
             this.lblPassword.TabIndex = 41;
@@ -600,7 +596,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtEmailLoginUserPassword
             // 
-            this.txtEmailLoginUserPassword.Location = new System.Drawing.Point(262, 115);
+            this.txtEmailLoginUserPassword.Location = new System.Drawing.Point(262, 117);
             this.txtEmailLoginUserPassword.Name = "txtEmailLoginUserPassword";
             this.txtEmailLoginUserPassword.Size = new System.Drawing.Size(110, 21);
             this.txtEmailLoginUserPassword.TabIndex = 40;
@@ -624,7 +620,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblSMTPServer
             // 
             this.lblSMTPServer.AutoSize = true;
-            this.lblSMTPServer.Location = new System.Drawing.Point(186, 45);
+            this.lblSMTPServer.Location = new System.Drawing.Point(186, 47);
             this.lblSMTPServer.Name = "lblSMTPServer";
             this.lblSMTPServer.Size = new System.Drawing.Size(72, 13);
             this.lblSMTPServer.TabIndex = 37;
@@ -642,7 +638,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblPort
             // 
             this.lblPort.AutoSize = true;
-            this.lblPort.Location = new System.Drawing.Point(411, 45);
+            this.lblPort.Location = new System.Drawing.Point(411, 48);
             this.lblPort.Name = "lblPort";
             this.lblPort.Size = new System.Drawing.Size(91, 13);
             this.lblPort.TabIndex = 35;
@@ -668,13 +664,18 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.chkServerRequiresAuth.Text = "My server requires authentication";
             this.chkServerRequiresAuth.UseVisualStyleBackColor = true;
             // 
-            // nudPort
+            // nudEmailOutgoingPortNumber
             // 
-            this.nudPort.Location = new System.Drawing.Point(503, 41);
-            this.nudPort.Name = "nudPort";
-            this.nudPort.Size = new System.Drawing.Size(43, 21);
-            this.nudPort.TabIndex = 32;
-            this.nudPort.Value = new decimal(new int[] {
+            this.nudEmailOutgoingPortNumber.Location = new System.Drawing.Point(503, 44);
+            this.nudEmailOutgoingPortNumber.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudEmailOutgoingPortNumber.Name = "nudEmailOutgoingPortNumber";
+            this.nudEmailOutgoingPortNumber.Size = new System.Drawing.Size(47, 21);
+            this.nudEmailOutgoingPortNumber.TabIndex = 32;
+            this.nudEmailOutgoingPortNumber.Value = new decimal(new int[] {
             25,
             0,
             0,
@@ -682,7 +683,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtSMTPServer
             // 
-            this.txtSMTPServer.Location = new System.Drawing.Point(262, 41);
+            this.txtSMTPServer.Location = new System.Drawing.Point(262, 43);
             this.txtSMTPServer.Name = "txtSMTPServer";
             this.txtSMTPServer.Size = new System.Drawing.Size(143, 21);
             this.txtSMTPServer.TabIndex = 31;
@@ -869,7 +870,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.txtConnectionString.Location = new System.Drawing.Point(136, 47);
             this.txtConnectionString.Name = "txtConnectionString";
             this.txtConnectionString.ReadOnly = true;
-            this.txtConnectionString.Size = new System.Drawing.Size(348, 21);
+            this.txtConnectionString.Size = new System.Drawing.Size(350, 21);
             this.txtConnectionString.TabIndex = 13;
             // 
             // lblConnection
@@ -883,7 +884,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // cmdConfigureConn
             // 
-            this.cmdConfigureConn.Location = new System.Drawing.Point(490, 45);
+            this.cmdConfigureConn.Location = new System.Drawing.Point(492, 47);
             this.cmdConfigureConn.Name = "cmdConfigureConn";
             this.cmdConfigureConn.Size = new System.Drawing.Size(67, 23);
             this.cmdConfigureConn.TabIndex = 15;
@@ -1158,32 +1159,6 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.lblWTSJobStart.TabIndex = 45;
             this.lblWTSJobStart.Text = "Windows Task Scheduler will start the job";
             // 
-            // nudEmailOutgoingPortNumber
-            // 
-            this.nudEmailOutgoingPortNumber.Location = new System.Drawing.Point(503, 115);
-            this.nudEmailOutgoingPortNumber.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nudEmailOutgoingPortNumber.Name = "nudEmailOutgoingPortNumber";
-            this.nudEmailOutgoingPortNumber.Size = new System.Drawing.Size(43, 21);
-            this.nudEmailOutgoingPortNumber.TabIndex = 44;
-            this.nudEmailOutgoingPortNumber.Value = new decimal(new int[] {
-            25,
-            0,
-            0,
-            0});
-            // 
-            // lblEmailOutgoingPortNumber
-            // 
-            this.lblEmailOutgoingPortNumber.AutoSize = true;
-            this.lblEmailOutgoingPortNumber.Location = new System.Drawing.Point(378, 119);
-            this.lblEmailOutgoingPortNumber.Name = "lblEmailOutgoingPortNumber";
-            this.lblEmailOutgoingPortNumber.Size = new System.Drawing.Size(118, 13);
-            this.lblEmailOutgoingPortNumber.TabIndex = 45;
-            this.lblEmailOutgoingPortNumber.Text = "Outgoing Port Number:";
-            // 
             // MainWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1217,7 +1192,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.tabConfiguration.PerformLayout();
             this.grpEmailConfiguration.ResumeLayout(false);
             this.grpEmailConfiguration.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudPort)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudEmailOutgoingPortNumber)).EndInit();
             this.gbWorkingDirectories.ResumeLayout(false);
             this.gbWorkingDirectories.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDays)).EndInit();
@@ -1230,7 +1205,6 @@ namespace NC.Util.SqlSrv.BackupRestore
             ((System.ComponentModel.ISupportInitialize)(this.nudFTPPort)).EndInit();
             this.grpScheduleJog.ResumeLayout(false);
             this.grpScheduleJog.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudEmailOutgoingPortNumber)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1307,7 +1281,7 @@ namespace NC.Util.SqlSrv.BackupRestore
         private System.Windows.Forms.Label lblPort;
         private System.Windows.Forms.CheckBox chkEnableSSL;
         private System.Windows.Forms.CheckBox chkServerRequiresAuth;
-        private System.Windows.Forms.NumericUpDown nudPort;
+        private System.Windows.Forms.NumericUpDown nudEmailOutgoingPortNumber;
         private System.Windows.Forms.TextBox txtSMTPServer;
         private System.Windows.Forms.TextBox txtFromEmail;
         private System.Windows.Forms.CheckBox chkConfigureEmails;
@@ -1341,7 +1315,5 @@ namespace NC.Util.SqlSrv.BackupRestore
         private System.Windows.Forms.NumericUpDown nudFTPDays;
         private System.Windows.Forms.NumericUpDown nudFTPMonths;
         private System.Windows.Forms.Label lblHowLogToKeepFTPFiles;
-        private System.Windows.Forms.Label lblEmailOutgoingPortNumber;
-        private System.Windows.Forms.NumericUpDown nudEmailOutgoingPortNumber;
     }
 }
