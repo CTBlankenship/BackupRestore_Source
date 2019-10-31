@@ -8,11 +8,11 @@ using System.Security.Cryptography;
 
 namespace NC.Util.SqlSrv.BackupRestore
 {
+    // ------------------------------------------------------------------------------------------
+    // https://www.c-sharpcorner.com/UploadFile/f8fa6c/data-encryption-and-decryption-in-C-Sharp/
+    // ------------------------------------------------------------------------------------------
     public static class Cryptography
     {
-        // ------------------------------------------------------------------------------------------
-        // https://www.c-sharpcorner.com/UploadFile/f8fa6c/data-encryption-and-decryption-in-C-Sharp/
-        // ------------------------------------------------------------------------------------------
         public static string EncryptData(string input, string key)
         {
             byte[] inputArray = UTF8Encoding.UTF8.GetBytes(input);
@@ -137,8 +137,6 @@ namespace NC.Util.SqlSrv.BackupRestore
             return Encoding.UTF8.GetString(TextByte);  //it will return readable string
         }
     }
-
-    //Don't forget the using System.Security.Cryptography; statement when you add this class
 
     //---------------------------------------------------------------
     // https://tekeye.uk/visual_studio/encrypt-decrypt-c-sharp-string
