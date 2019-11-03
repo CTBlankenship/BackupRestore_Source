@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="CommandLineHelper.cs" />
     <Compile Include="Cryptography.cs" />
+    <Compile Include="FTPHelper.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MainWin.cs">
       <SubType>Form</SubType>

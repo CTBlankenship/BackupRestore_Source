@@ -8,11 +8,9 @@ using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Common;
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing.Text;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
-using NC.Util.SqlSrv.BackupRestore;
 using System.Net;
 using System.Net.Mail;
 
@@ -48,14 +46,16 @@ namespace NC.Util.SqlSrv.BackupRestore
         // ------------------------------------------------------
         private string _backupZips = @"C:\NovantBackups\SQLBackups\";
         private string _scratchPad = @"C:\NovantBackups\Scratch\";
-        private string _DbFileLocation = @"C:\Program Files\Microsoft SQL Server\MSSQL13.SQLSVR_2016\MSSQL\DATA\";
+        private string _dbFileLocation = @"C:\Program Files\Microsoft SQL Server\MSSQL13.SQLSVR_2016\MSSQL\DATA\";
+        private string _developmentDirectory = @"E:\Development\";
+        private string _developmentZips = @"C:\NovantBackups\DevelopmentBackups\";
         // ----------------------------------------------------------
 
         private string _zipFileName = String.Empty;
         private string _databaseFileName = String.Empty;
         private string _databaseLogFileName = string.Empty;
         private string _messageBoxCaption = "SQL Backup and Restore Utility";
-
+        private string _archiveFileName = String.Empty;
         // -----------------------------------------------------------------
         // Encryption key has to be 16 characters in length ...
         // If you use this app, change your encryption key to something else
@@ -113,6 +113,7 @@ namespace NC.Util.SqlSrv.BackupRestore
                 InitializeConfigurationSettings();
                 ReadConfigurationSettings();
                 GenerateApplicationFileNames(_dbName);
+                LoadDevelopmentDirectories();
 
 
                 txtFileToBackUp.Text = _backupFileName;
@@ -343,7 +344,7 @@ namespace NC.Util.SqlSrv.BackupRestore
 
                 if (!logRf.PhysicalFileName.Contains(@"C:\"))
                 {
-                    logRf.PhysicalFileName = _DbFileLocation + _databaseLogFileName;
+                    logRf.PhysicalFileName = _dbFileLocation + _databaseLogFileName;
                 }
 
                 Logger.LogMessage("Physical Log File: " + logRf.PhysicalFileName);
@@ -372,9 +373,8 @@ namespace NC.Util.SqlSrv.BackupRestore
             catch (Exception exc)
             {
                 dbRestore.Abort();
-                Logger.LogMessage($"RestoreDb(): Exception occured.\nMessage: {exc.Message}");
-                MessageBox.Show("RestoreDb(): Exception occured.\nMessage:" + exc.Message, _messageBoxCaption);
-                ;
+                Logger.LogMessage($"RestoreDb(): Exception occured. Message: {exc.Message}");
+                MessageBox.Show(@"RestoreDb(): Exception occured. Message:" + exc.Message, _messageBoxCaption);
             }
             finally
             {
@@ -419,7 +419,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             Application.Exit();
         }
 
-        private void GenerateApplicationFileNames(string _dbName)
+        private void GenerateApplicationFileNames(string dbName)
         {
             string baseFileName = string.Format("{6}_{0}{1}{2}_{3}{4}{5}",
                 DateTime.Now.Year.ToString().PadLeft(4, '0'),
@@ -428,7 +428,7 @@ namespace NC.Util.SqlSrv.BackupRestore
                 DateTime.Now.Hour.ToString().PadLeft(2, '0'),
                 DateTime.Now.Minute.ToString().PadLeft(2, '0'),
                 DateTime.Now.Second.ToString().PadLeft(2, '0'),
-                _dbName);
+                dbName);
 
             // ---------------
             // CTB: 2019.10.30
@@ -451,7 +451,7 @@ namespace NC.Util.SqlSrv.BackupRestore
 
             if (!Directory.Exists(_scratchPad))
             {
-                Logger.LogMessage("The database file directory " + _DbFileLocation + " does not exist.");
+                Logger.LogMessage("The database file directory " + _dbFileLocation + " does not exist.");
                 validDirectoryStructures = false;
             }
 
@@ -472,8 +472,8 @@ namespace NC.Util.SqlSrv.BackupRestore
 
             _backupFileName = _scratchPad + baseFileName + ".bak";
             _zipFileName = _backupZips + baseFileName + ".zip";
-            _databaseFileName = _DbFileLocation + _dbName + ".mdf";
-            _databaseLogFileName = _DbFileLocation + _dbName + "_Log.ldf";
+            _databaseFileName = _dbFileLocation + dbName + ".mdf";
+            _databaseLogFileName = _dbFileLocation + dbName + "_Log.ldf";
 
             Logger.LogMessage("Backup File Name: " + _backupFileName);
             Logger.LogMessage("Zip File Name: " + _zipFileName);
@@ -647,6 +647,9 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.TryGetValue("DbFileLocations", out string dbFileDirectory);
                 txtSQLFileLocations.Text = dbFileDirectory;
 
+                _configurationSettings.TryGetValue("DevelopmentDirectory", out string developmentDirectory);
+                txtDevelopmentDirectory.Text = developmentDirectory;
+
                 _configurationSettings.TryGetValue("LocalRetentionMonths", out string months);
                 nudMonths.Value = Convert.ToInt32(months);
 
@@ -668,26 +671,53 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.TryGetValue("EmailFromEmail", out string emailFromEmail);
                 txtFromEmail.Text = emailFromEmail;
 
-                _configurationSettings.TryGetValue("EmailSMTPOutgoingServer", out string SMTPOutgoingServer);
-                txtSMTPServer.Text = SMTPOutgoingServer;
+                _configurationSettings.TryGetValue("EmailSMTPOutgoingServer", out string smtpOutgoingServer);
+                txtSMTPServer.Text = smtpOutgoingServer;
 
-                _configurationSettings.TryGetValue("EmailSMTPPort", out string EmailSMTPPort);
-                nudFTPPort.Value = Convert.ToInt32(EmailSMTPPort);
+                _configurationSettings.TryGetValue("EmailSMTPPort", out string emailSmtpPort);
+                nudFTPPort.Value = Convert.ToInt32(emailSmtpPort);
 
-                _configurationSettings.TryGetValue("EmailRequiresSSL", out string EmailRequiresSSL);
-                chkServerRequiresAuth.Checked = Convert.ToBoolean(EmailRequiresSSL == "true");
+                _configurationSettings.TryGetValue("EmailRequiresSSL", out string emailRequiresSsl);
+                chkServerRequiresAuth.Checked = Convert.ToBoolean(emailRequiresSsl == "true");
 
-                _configurationSettings.TryGetValue("EmailEnableSSL", out string EmailEnableSSL);
-                chkEnableSSL.Checked = Convert.ToBoolean(EmailEnableSSL == "true");
+                _configurationSettings.TryGetValue("EmailEnableSSL", out string emailEnableSsl);
+                chkEnableSSL.Checked = Convert.ToBoolean(emailEnableSsl == "true");
 
-                _configurationSettings.TryGetValue("EmailLoginUserName", out string EmailLoginUserName);
-                txtEmailLoginUserName.Text = EmailLoginUserName;
+                _configurationSettings.TryGetValue("EmailLoginUserName", out string emailLoginUserName);
+                txtEmailLoginUserName.Text = emailLoginUserName;
 
-                _configurationSettings.TryGetValue("EmailLoginUserPassword", out string EmailLoginUserPassword);
-                txtEmailLoginUserPassword.Text = EmailLoginUserPassword;
+                _configurationSettings.TryGetValue("EmailLoginUserPassword", out string emailLoginUserPassword);
+                txtEmailLoginUserPassword.Text = emailLoginUserPassword;
                 
-                _configurationSettings.TryGetValue("EmailOutgoingPortNumber", out string EmailOutgoingPortNumber);
-                nudEmailOutgoingPortNumber.Value = Convert.ToInt32(EmailOutgoingPortNumber);
+                _configurationSettings.TryGetValue("EmailOutgoingPortNumber", out string emailOutgoingPortNumber);
+                nudEmailOutgoingPortNumber.Value = Convert.ToInt32(emailOutgoingPortNumber);
+
+                _configurationSettings.TryGetValue("FTPUseFTPSettings", out string ftpUseFtpSettings);
+                chkFTPUseFTPSettings.Checked = Convert.ToBoolean(ftpUseFtpSettings == "true");
+
+                _configurationSettings.TryGetValue("FTPRetentionMonths", out string ftpRetentionMonths);
+                nudFTPMonths.Value = Convert.ToInt32(ftpRetentionMonths);
+
+                _configurationSettings.TryGetValue("FTPRetentionDays", out string ftpRetentionDays);
+                nudFTPDays.Value = Convert.ToInt32(ftpRetentionDays);
+
+                _configurationSettings.TryGetValue("FTPHostAddress", out string ftpHostAddress);
+                txtFTPHostAddress.Text = ftpHostAddress;
+
+                _configurationSettings.TryGetValue("FTPUserName", out string ftpUserName);
+                txtFTPUserName.Text = ftpUserName;
+
+                _configurationSettings.TryGetValue("FTPPassword", out string ftpPassword);
+                txtFTPPassword.Text = ftpPassword;
+
+                _configurationSettings.TryGetValue("FTPPort", out string ftpPort);
+                nudFTPPort.Value = Convert.ToInt32(ftpPort);
+
+                _configurationSettings.TryGetValue("FTPRemoteFolder",out string ftpRemoteFolder);
+                txtFTPRemoteFolder.Text = ftpRemoteFolder;
+
+                _configurationSettings.TryGetValue("EmailEnableSSL", out string ftpWriteSessionToLog);
+                chkFTPWriteSessionLog.Checked = Convert.ToBoolean(ftpWriteSessionToLog == "true");
             }
         }
 
@@ -699,6 +729,8 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.Add("BackupZips", @"C:\NovantBackups\SQLBackups\");
                 _configurationSettings.Add("ScratchPad", @"C:\NovantBackups\Scratch\");
                 _configurationSettings.Add("DbFileLocations", @"C:\Program Files\Microsoft SQL Server\MSSQL13.SQLSVR_2016\MSSQL\DATA\");
+                _configurationSettings.Add("DevelopmentDirectory",@"E:\Development\");
+                _configurationSettings.Add("DevelopmentScratchDirectory", @"C:\NovantBackups\DevelopmentScratch");
                 _configurationSettings.Add("ConnectionString", "Server=CTB-MAXIMUS-PC;Database=master;Trusted_Connection=True");
                 _configurationSettings.Add("LocalRetentionMonths", "6");
                 _configurationSettings.Add("LocalRetentionDays", "0");
@@ -710,20 +742,20 @@ namespace NC.Util.SqlSrv.BackupRestore
                 _configurationSettings.Add("EmailSMTPOutgoingServer", "smtpout.secureserver.net");
                 _configurationSettings.Add("EmailOutgoingPortNumber", "25");
                 _configurationSettings.Add("EmailLoginUserName", "ct@novantconsulting.com");
-                _configurationSettings.Add("EmailLoginUserPassword", "Babylon5");
+                _configurationSettings.Add("EmailLoginUserPassword", "YouDontGetToSeeThis");
                 _configurationSettings.Add("EmailRequiresSSL", "true");
                 _configurationSettings.Add("EmailEnableSSL", "true");
 
                 _configurationSettings.Add("FTPUseFTPSettings", "false");
-                _configurationSettings.Add("FTPHostAddress", "");
-                _configurationSettings.Add("FTPUserName", "BobRhinehardt");
-                _configurationSettings.Add("FTPPassword", "S#u1p!D");
+                _configurationSettings.Add("FTPRetentionMonths", "6");
+                _configurationSettings.Add("FTPRetentionDays", "0");
+                _configurationSettings.Add("FTPHostAddress", @"ftp://50.62.160.129");
+                _configurationSettings.Add("FTPUserName", "CTBlankenship75");
+                _configurationSettings.Add("FTPPassword", "YouDontGetToSeeThis");
                 _configurationSettings.Add("FTPPort", "21");
                 _configurationSettings.Add("FTPDataConnection", "Passive(PASV)");
-                _configurationSettings.Add("FTPRemoteFolder", @"ftp://ftp.addressyourcompany");
+                _configurationSettings.Add("FTPRemoteFolder", @"ftp://50.62.160.129/SQLBackups");
                 _configurationSettings.Add("FTPWriteSessionToLog", "true");
-                _configurationSettings.Add("FTPRetentionsMonths", "6");
-                _configurationSettings.Add("FTPRetentionDays", "0");
 
                 FileStream fs = new FileStream(_settingsFileName, FileMode.Append);
 
@@ -768,7 +800,7 @@ namespace NC.Util.SqlSrv.BackupRestore
 
         private void cmdSQLDBFiles_Click(object sender, EventArgs e)
         {
-            fbdSQLDBFiles.SelectedPath = _DbFileLocation;
+            fbdSQLDBFiles.SelectedPath = _dbFileLocation;
             fbdSQLDBFiles.ShowNewFolderButton = true;
             fbdSQLDBFiles.Description = "Select the location of the SQL Server data files";
             if (fbdSQLDBFiles.ShowDialog() == DialogResult.OK)
@@ -822,6 +854,175 @@ namespace NC.Util.SqlSrv.BackupRestore
                 Logger.LogMessage("----------");
 
                 MessageBox.Show(ex.ToString(), _messageBoxCaption);
+            }
+        }
+
+        private void cmdBrowseDevelopmentDirectories_Click(object sender, EventArgs e)
+        {
+            fbdDevDirectories.SelectedPath = Environment.CurrentDirectory;
+            fbdDevDirectories.ShowNewFolderButton = false;
+            fbdDevDirectories.Description = "Select the location of your development files";
+            if (fbdDevDirectories.ShowDialog() == DialogResult.OK)
+            {
+                txtDevelopmentDirectory.Text = fbdDevDirectories.SelectedPath + @"\";
+                _developmentDirectory = txtSQLFileLocations.Text;
+                BuildDevelopmentDirectoriesTreeView();
+            }
+        }
+
+        private void BuildDevelopmentDirectoriesTreeView()
+        {
+            if (Directory.Exists(_developmentDirectory))
+            {
+                var directories = Directory.GetDirectories(_developmentDirectory);
+            }
+        }
+
+        private void BuildMailboxDirectoriesTreeView()
+        {
+        }
+
+        private void cmdTestFTPTransfer_Click(object sender, EventArgs e)
+        {
+            progBar.Visible = true;
+            progBar.Value = 0;
+            _configurationSettings.TryGetValue("FTPUserName", out string FTPUserName);
+            _configurationSettings.TryGetValue("FTPUserPassword", out string FTPUserPassword);
+
+            try
+            {
+                WebClient client = new WebClient();
+                client.Credentials = new NetworkCredential(txtFTPUserName.Text, txtFTPPassword.Text);
+                client.UploadProgressChanged += new UploadProgressChangedEventHandler(UploadProgressChangedEventHandler);
+                client.UploadFileCompleted += new UploadFileCompletedEventHandler(UploadFileCompletedEventHandler);
+                progBar.Visible = true;
+                progBar.Value = 0;
+                client.UploadFileAsync( new Uri(@"ftp://novantconsulting.com/SQLBackups/StrataFrame.bak"), @"E:\Strataframe.bak");
+             }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
+        }
+
+        private void UploadProgressChangedEventHandler(object sender, UploadProgressChangedEventArgs e)
+        {
+            progBar.Value = e.ProgressPercentage;
+        }
+
+        private void UploadFileCompletedEventHandler(object sender, UploadFileCompletedEventArgs e)
+        {
+            progBar.Visible = false;
+            progBar.Value = 0;
+            MessageBox.Show("Upload completed!!!", _messageBoxCaption);
+        }
+
+        private void LoadDevelopmentDirectories()
+        {
+            string[] directories = Directory.GetDirectories(_developmentDirectory);
+            foreach (string directory in directories)
+            {
+                dgvDevelopmentDirectories.Rows.Add(0, directory);
+            }
+        }
+
+        private void cmdBackupDevelopmentDirectories_Click(object sender, EventArgs e)
+        {
+            CopyEachDevelopmentDirectory();
+            CreateDevelopmentZipFiles();
+            DeleteScratchFiles();
+        }
+
+        private void CopyEachDevelopmentDirectory()
+        {
+
+            for (int i = 0; i < dgvDevelopmentDirectories.Rows.Count; i++)
+            {
+                DataGridViewRow row = dgvDevelopmentDirectories.Rows[i];
+                string value  = row.Cells["colSelected"].Value.ToString();
+
+                if (value=="true")
+                {
+                    string sourceDirectoryName = (string)(dgvDevelopmentDirectories.Rows[i].Cells["colDirectoryName"].Value);
+                    string destinationDirectoryName = _scratchPad + sourceDirectoryName.Substring(3) + @"\";
+
+                    if (!Directory.Exists(destinationDirectoryName))
+                    {
+                        Directory.CreateDirectory(destinationDirectoryName);
+                    }
+                    CopyFolderContents(sourceDirectoryName, destinationDirectoryName);
+                }
+            }
+        }
+
+        private bool CopyFolderContents(string SourcePath, string DestinationPath)
+        {
+            SourcePath = SourcePath.EndsWith(@"\") ? SourcePath : SourcePath + @"\";
+            DestinationPath = DestinationPath.EndsWith(@"\") ? DestinationPath : DestinationPath + @"\";
+
+            try
+            {
+                if (Directory.Exists(SourcePath))
+                {
+                    if (Directory.Exists(DestinationPath) == false)
+                    {
+                        Directory.CreateDirectory(DestinationPath);
+                    }
+
+                    foreach (string files in Directory.GetFiles(SourcePath))
+                    {
+                        FileInfo fileInfo = new FileInfo(files);
+                        fileInfo.CopyTo(string.Format(@"{0}\{1}", DestinationPath, fileInfo.Name), true);
+                    }
+
+                    foreach (string drs in Directory.GetDirectories(SourcePath))
+                    {
+                        DirectoryInfo directoryInfo = new DirectoryInfo(drs);
+                        if (CopyFolderContents(drs, DestinationPath + directoryInfo.Name) == false)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                string blah = ex.ToString();
+                return false;
+            }
+        }
+
+        private void CreateDevelopmentZipFiles()
+        {
+            _archiveFileName = _developmentZips + string.Format("{6}_{0}{1}{2}_{3}{4}{5}",
+                DateTime.Now.Year.ToString().PadLeft(4, '0'),
+                DateTime.Now.Month.ToString().PadLeft(2, '0'),
+                DateTime.Now.Day.ToString().PadLeft(2, '0'),
+                DateTime.Now.Hour.ToString().PadLeft(2, '0'),
+                DateTime.Now.Minute.ToString().PadLeft(2, '0'),
+                DateTime.Now.Second.ToString().PadLeft(2, '0') + ".zip",
+                "DevelopmentBackup");
+            ZipFile.CreateFromDirectory(_scratchPad, _archiveFileName);
+
+        }
+
+        private void DeleteScratchFiles()
+        {
+            string message = "You are about to delete all of the directories and files in the " + _scratchPad +
+                             " directory.  Are you sure you want to do this?";
+            if (MessageBox.Show(message, _messageBoxCaption, MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                foreach (string directory in Directory.GetDirectories(_scratchPad))
+                {
+                    Directory.Delete(directory,true); // Make the delete recursive ...
+                }
+            }
+
+            foreach (string backFile in Directory.GetFiles(_scratchPad, "*.bak"))
+            {
+                File.Delete(backFile);
             }
         }
     }

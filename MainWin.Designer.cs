@@ -33,6 +33,9 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.saveBakFile = new System.Windows.Forms.SaveFileDialog();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolstripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.progBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -44,6 +47,9 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.tacMain = new System.Windows.Forms.TabControl();
             this.tabBackupRestore = new System.Windows.Forms.TabPage();
             this.grpBackup = new System.Windows.Forms.GroupBox();
+            this.cmdConfigureConn = new System.Windows.Forms.Button();
+            this.lblConnection = new System.Windows.Forms.Label();
+            this.txtConnectionString = new System.Windows.Forms.TextBox();
             this.lblBackupScript = new System.Windows.Forms.Label();
             this.txtBackupScript = new System.Windows.Forms.TextBox();
             this.cmdShrinkLogFile = new System.Windows.Forms.Button();
@@ -100,39 +106,45 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.nudDays = new System.Windows.Forms.NumericUpDown();
             this.nudMonths = new System.Windows.Forms.NumericUpDown();
             this.lblHowLongTokeep = new System.Windows.Forms.Label();
-            this.fbdBackupZips = new System.Windows.Forms.FolderBrowserDialog();
-            this.fbdSQLDBFiles = new System.Windows.Forms.FolderBrowserDialog();
-            this.fbdScratch = new System.Windows.Forms.FolderBrowserDialog();
-            this.txtConnectionString = new System.Windows.Forms.TextBox();
-            this.lblConnection = new System.Windows.Forms.Label();
-            this.cmdConfigureConn = new System.Windows.Forms.Button();
             this.tabFTPSchduler = new System.Windows.Forms.TabPage();
+            this.grpScheduleJog = new System.Windows.Forms.GroupBox();
+            this.lblWTSJobStart = new System.Windows.Forms.Label();
+            this.lblJobStart = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.chkScheduleToRunDaily = new System.Windows.Forms.CheckBox();
             this.grbFTP = new System.Windows.Forms.GroupBox();
+            this.cmdTestFTPTransfer = new System.Windows.Forms.Button();
+            this.chkFTPWriteSessionLog = new System.Windows.Forms.CheckBox();
+            this.chkFTPUseFTPSettings = new System.Windows.Forms.CheckBox();
+            this.lblRemoteFolder = new System.Windows.Forms.Label();
+            this.txtFTPRemoteFolder = new System.Windows.Forms.TextBox();
+            this.lblFTPPort = new System.Windows.Forms.Label();
+            this.nudFTPPort = new System.Windows.Forms.NumericUpDown();
+            this.lblFTPPassword = new System.Windows.Forms.Label();
+            this.txtFTPPassword = new System.Windows.Forms.TextBox();
+            this.lblFTPUserName = new System.Windows.Forms.Label();
+            this.txtFTPUserName = new System.Windows.Forms.TextBox();
+            this.lblFTPExample = new System.Windows.Forms.Label();
+            this.lblFTPHostAddress = new System.Windows.Forms.Label();
+            this.txtFTPHostAddress = new System.Windows.Forms.TextBox();
             this.lblFTPMonths = new System.Windows.Forms.Label();
             this.lblFTPDays = new System.Windows.Forms.Label();
             this.nudFTPDays = new System.Windows.Forms.NumericUpDown();
             this.nudFTPMonths = new System.Windows.Forms.NumericUpDown();
             this.lblHowLogToKeepFTPFiles = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.lblFTPHostAddress = new System.Windows.Forms.Label();
-            this.lblFTPExample = new System.Windows.Forms.Label();
-            this.lblFTPUserName = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.lblFTPPassword = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.nudFTPPort = new System.Windows.Forms.NumericUpDown();
-            this.lblFTPPort = new System.Windows.Forms.Label();
-            this.cboDataConnection = new System.Windows.Forms.ComboBox();
-            this.lblRemoteFolder = new System.Windows.Forms.Label();
-            this.txtRemoteFolder = new System.Windows.Forms.TextBox();
-            this.chkUseFTP = new System.Windows.Forms.CheckBox();
-            this.chkWriteFTPSessionLog = new System.Windows.Forms.CheckBox();
-            this.lblDataConnection = new System.Windows.Forms.Label();
-            this.grpScheduleJog = new System.Windows.Forms.GroupBox();
-            this.chkScheduleToRunDaily = new System.Windows.Forms.CheckBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.lblJobStart = new System.Windows.Forms.Label();
-            this.lblWTSJobStart = new System.Windows.Forms.Label();
+            this.tabDevelopment = new System.Windows.Forms.TabPage();
+            this.dgvDevelopmentDirectories = new System.Windows.Forms.DataGridView();
+            this.cmdBrowseDevelopmentDirectories = new System.Windows.Forms.Button();
+            this.lblDevelopmentDirectory = new System.Windows.Forms.Label();
+            this.txtDevelopmentDirectory = new System.Windows.Forms.TextBox();
+            this.fbdBackupZips = new System.Windows.Forms.FolderBrowserDialog();
+            this.fbdSQLDBFiles = new System.Windows.Forms.FolderBrowserDialog();
+            this.fbdScratch = new System.Windows.Forms.FolderBrowserDialog();
+            this.fbdDevDirectories = new System.Windows.Forms.FolderBrowserDialog();
+            this.fbdMailboxDirectory = new System.Windows.Forms.FolderBrowserDialog();
+            this.cmdBackupDevelopmentDirectories = new System.Windows.Forms.Button();
+            this.colSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colDirectoryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip1.SuspendLayout();
             this.tacMain.SuspendLayout();
             this.tabBackupRestore.SuspendLayout();
@@ -148,11 +160,13 @@ namespace NC.Util.SqlSrv.BackupRestore
             ((System.ComponentModel.ISupportInitialize)(this.nudDays)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMonths)).BeginInit();
             this.tabFTPSchduler.SuspendLayout();
+            this.grpScheduleJog.SuspendLayout();
             this.grbFTP.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudFTPPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudFTPDays)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudFTPMonths)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudFTPPort)).BeginInit();
-            this.grpScheduleJog.SuspendLayout();
+            this.tabDevelopment.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDevelopmentDirectories)).BeginInit();
             this.SuspendLayout();
             // 
             // openBakFile
@@ -169,10 +183,11 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // statusStrip1
             // 
+            this.statusStrip1.BackColor = System.Drawing.Color.Silver;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripSplitButton1,
             this.progBar});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 508);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 503);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(605, 22);
             this.statusStrip1.TabIndex = 3;
@@ -182,6 +197,9 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.openToolStripMenuItem,
+            this.saveToolstripMenuItem,
             this.quitToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
@@ -189,6 +207,27 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
             this.toolStripSplitButton1.Size = new System.Drawing.Size(54, 20);
             this.toolStripSplitButton1.Text = "Menu";
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.newToolStripMenuItem.Text = "&New";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeyDisplayString = "Alt+O";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.openToolStripMenuItem.Text = "&Open";
+            // 
+            // saveToolstripMenuItem
+            // 
+            this.saveToolstripMenuItem.Name = "saveToolstripMenuItem";
+            this.saveToolstripMenuItem.ShortcutKeyDisplayString = "Alt+S";
+            this.saveToolstripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.saveToolstripMenuItem.Text = "&Save";
             // 
             // quitToolStripMenuItem
             // 
@@ -208,6 +247,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // progBar
             // 
+            this.progBar.BackColor = System.Drawing.SystemColors.ControlLight;
             this.progBar.Name = "progBar";
             this.progBar.Size = new System.Drawing.Size(250, 16);
             this.progBar.Visible = false;
@@ -219,7 +259,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // txtLogFile
             // 
             this.txtLogFile.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLogFile.Location = new System.Drawing.Point(16, 382);
+            this.txtLogFile.Location = new System.Drawing.Point(14, 387);
             this.txtLogFile.Multiline = true;
             this.txtLogFile.Name = "txtLogFile";
             this.txtLogFile.ReadOnly = true;
@@ -231,7 +271,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblLogFile
             // 
             this.lblLogFile.AutoSize = true;
-            this.lblLogFile.Location = new System.Drawing.Point(16, 359);
+            this.lblLogFile.Location = new System.Drawing.Point(15, 359);
             this.lblLogFile.Name = "lblLogFile";
             this.lblLogFile.Size = new System.Drawing.Size(40, 13);
             this.lblLogFile.TabIndex = 5;
@@ -239,7 +279,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // cmdShow
             // 
-            this.cmdShow.Location = new System.Drawing.Point(60, 355);
+            this.cmdShow.Location = new System.Drawing.Point(59, 355);
             this.cmdShow.Name = "cmdShow";
             this.cmdShow.Size = new System.Drawing.Size(75, 23);
             this.cmdShow.TabIndex = 6;
@@ -249,7 +289,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // cmdViewInNotepad
             // 
-            this.cmdViewInNotepad.Location = new System.Drawing.Point(141, 355);
+            this.cmdViewInNotepad.Location = new System.Drawing.Point(140, 355);
             this.cmdViewInNotepad.Name = "cmdViewInNotepad";
             this.cmdViewInNotepad.Size = new System.Drawing.Size(113, 23);
             this.cmdViewInNotepad.TabIndex = 7;
@@ -263,6 +303,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.tacMain.Controls.Add(this.tabRestore);
             this.tacMain.Controls.Add(this.tabConfiguration);
             this.tacMain.Controls.Add(this.tabFTPSchduler);
+            this.tacMain.Controls.Add(this.tabDevelopment);
             this.tacMain.Location = new System.Drawing.Point(12, 12);
             this.tacMain.Name = "tacMain";
             this.tacMain.SelectedIndex = 0;
@@ -297,6 +338,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.grpBackup.Controls.Add(this.lblBackupFileName);
             this.grpBackup.Controls.Add(this.lblDb);
             this.grpBackup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpBackup.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.grpBackup.Location = new System.Drawing.Point(3, 3);
             this.grpBackup.Name = "grpBackup";
             this.grpBackup.Size = new System.Drawing.Size(566, 305);
@@ -304,9 +346,39 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.grpBackup.TabStop = false;
             this.grpBackup.Text = "Backup";
             // 
+            // cmdConfigureConn
+            // 
+            this.cmdConfigureConn.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmdConfigureConn.Location = new System.Drawing.Point(492, 47);
+            this.cmdConfigureConn.Name = "cmdConfigureConn";
+            this.cmdConfigureConn.Size = new System.Drawing.Size(67, 23);
+            this.cmdConfigureConn.TabIndex = 15;
+            this.cmdConfigureConn.Text = "Configure";
+            this.cmdConfigureConn.UseVisualStyleBackColor = true;
+            // 
+            // lblConnection
+            // 
+            this.lblConnection.AutoSize = true;
+            this.lblConnection.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblConnection.Location = new System.Drawing.Point(66, 50);
+            this.lblConnection.Name = "lblConnection";
+            this.lblConnection.Size = new System.Drawing.Size(65, 13);
+            this.lblConnection.TabIndex = 14;
+            this.lblConnection.Text = "Connection:";
+            // 
+            // txtConnectionString
+            // 
+            this.txtConnectionString.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtConnectionString.Location = new System.Drawing.Point(136, 47);
+            this.txtConnectionString.Name = "txtConnectionString";
+            this.txtConnectionString.ReadOnly = true;
+            this.txtConnectionString.Size = new System.Drawing.Size(350, 21);
+            this.txtConnectionString.TabIndex = 13;
+            // 
             // lblBackupScript
             // 
             this.lblBackupScript.AutoSize = true;
+            this.lblBackupScript.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblBackupScript.Location = new System.Drawing.Point(13, 195);
             this.lblBackupScript.Name = "lblBackupScript";
             this.lblBackupScript.Size = new System.Drawing.Size(71, 13);
@@ -315,7 +387,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtBackupScript
             // 
-            this.txtBackupScript.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBackupScript.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtBackupScript.Location = new System.Drawing.Point(10, 213);
             this.txtBackupScript.Multiline = true;
             this.txtBackupScript.Name = "txtBackupScript";
@@ -326,6 +398,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // cmdShrinkLogFile
             // 
+            this.cmdShrinkLogFile.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmdShrinkLogFile.Location = new System.Drawing.Point(136, 159);
             this.cmdShrinkLogFile.Name = "cmdShrinkLogFile";
             this.cmdShrinkLogFile.Size = new System.Drawing.Size(96, 23);
@@ -347,6 +420,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             this.cmbBackupMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBackupMode.Enabled = false;
+            this.cmbBackupMode.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmbBackupMode.FormattingEnabled = true;
             this.cmbBackupMode.Items.AddRange(new object[] {
             "Overwrite",
@@ -358,15 +432,18 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // btnBackupDb
             // 
+            this.btnBackupDb.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnBackupDb.Location = new System.Drawing.Point(236, 159);
             this.btnBackupDb.Name = "btnBackupDb";
             this.btnBackupDb.Size = new System.Drawing.Size(67, 23);
             this.btnBackupDb.TabIndex = 3;
             this.btnBackupDb.Text = "Backup";
             this.btnBackupDb.UseVisualStyleBackColor = true;
+            this.btnBackupDb.Click += new System.EventHandler(this.btnBackupDb_Click);
             // 
             // txtFileToBackUp
             // 
+            this.txtFileToBackUp.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtFileToBackUp.Location = new System.Drawing.Point(136, 102);
             this.txtFileToBackUp.Name = "txtFileToBackUp";
             this.txtFileToBackUp.ReadOnly = true;
@@ -377,6 +454,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             this.cmbBackupDb.DisplayMember = "Name";
             this.cmbBackupDb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBackupDb.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmbBackupDb.FormattingEnabled = true;
             this.cmbBackupDb.Location = new System.Drawing.Point(136, 75);
             this.cmbBackupDb.Name = "cmbBackupDb";
@@ -388,6 +466,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblBackupMode
             // 
             this.lblBackupMode.AutoSize = true;
+            this.lblBackupMode.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblBackupMode.Location = new System.Drawing.Point(56, 132);
             this.lblBackupMode.Name = "lblBackupMode";
             this.lblBackupMode.Size = new System.Drawing.Size(74, 13);
@@ -397,6 +476,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblBackupFileName
             // 
             this.lblBackupFileName.AutoSize = true;
+            this.lblBackupFileName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblBackupFileName.Location = new System.Drawing.Point(36, 105);
             this.lblBackupFileName.Name = "lblBackupFileName";
             this.lblBackupFileName.Size = new System.Drawing.Size(94, 13);
@@ -406,6 +486,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblDb
             // 
             this.lblDb.AutoSize = true;
+            this.lblDb.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblDb.Location = new System.Drawing.Point(75, 78);
             this.lblDb.Name = "lblDb";
             this.lblDb.Size = new System.Drawing.Size(55, 13);
@@ -434,6 +515,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.grpRestore.Controls.Add(this.txtFileToRestore);
             this.grpRestore.Controls.Add(this.lblBackupFile);
             this.grpRestore.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpRestore.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.grpRestore.Location = new System.Drawing.Point(3, 3);
             this.grpRestore.Name = "grpRestore";
             this.grpRestore.Size = new System.Drawing.Size(566, 305);
@@ -444,6 +526,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblRestoreScript
             // 
             this.lblRestoreScript.AutoSize = true;
+            this.lblRestoreScript.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblRestoreScript.Location = new System.Drawing.Point(13, 187);
             this.lblRestoreScript.Name = "lblRestoreScript";
             this.lblRestoreScript.Size = new System.Drawing.Size(75, 13);
@@ -452,7 +535,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtRestoreScript
             // 
-            this.txtRestoreScript.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRestoreScript.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtRestoreScript.Location = new System.Drawing.Point(10, 205);
             this.txtRestoreScript.Multiline = true;
             this.txtRestoreScript.Name = "txtRestoreScript";
@@ -463,6 +546,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // cmdGetZipFile
             // 
+            this.cmdGetZipFile.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmdGetZipFile.Location = new System.Drawing.Point(83, 59);
             this.cmdGetZipFile.Name = "cmdGetZipFile";
             this.cmdGetZipFile.Size = new System.Drawing.Size(139, 23);
@@ -487,6 +571,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.chckReplace.Checked = true;
             this.chckReplace.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chckReplace.Enabled = false;
+            this.chckReplace.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.chckReplace.Location = new System.Drawing.Point(83, 118);
             this.chckReplace.Name = "chckReplace";
             this.chckReplace.Size = new System.Drawing.Size(64, 17);
@@ -497,15 +582,18 @@ namespace NC.Util.SqlSrv.BackupRestore
             // btnRestore
             // 
             this.btnRestore.Enabled = false;
+            this.btnRestore.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnRestore.Location = new System.Drawing.Point(153, 115);
             this.btnRestore.Name = "btnRestore";
             this.btnRestore.Size = new System.Drawing.Size(67, 23);
             this.btnRestore.TabIndex = 3;
             this.btnRestore.Text = "Restore";
             this.btnRestore.UseVisualStyleBackColor = true;
+            this.btnRestore.Click += new System.EventHandler(this.btnRestore_Click);
             // 
             // txtFileToRestore
             // 
+            this.txtFileToRestore.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtFileToRestore.Location = new System.Drawing.Point(83, 88);
             this.txtFileToRestore.Name = "txtFileToRestore";
             this.txtFileToRestore.ReadOnly = true;
@@ -515,6 +603,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblBackupFile
             // 
             this.lblBackupFile.AutoSize = true;
+            this.lblBackupFile.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblBackupFile.Location = new System.Drawing.Point(14, 92);
             this.lblBackupFile.Name = "lblBackupFile";
             this.lblBackupFile.Size = new System.Drawing.Size(64, 13);
@@ -559,6 +648,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.grpEmailConfiguration.Controls.Add(this.lblFailureEmail);
             this.grpEmailConfiguration.Controls.Add(this.txtFailureEmail);
             this.grpEmailConfiguration.Controls.Add(this.txtSuccessEmail);
+            this.grpEmailConfiguration.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.grpEmailConfiguration.Location = new System.Drawing.Point(7, 155);
             this.grpEmailConfiguration.Name = "grpEmailConfiguration";
             this.grpEmailConfiguration.Size = new System.Drawing.Size(556, 145);
@@ -569,7 +659,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // chkConfigureEmails
             // 
             this.chkConfigureEmails.AutoSize = true;
-            this.chkConfigureEmails.Location = new System.Drawing.Point(109, 1);
+            this.chkConfigureEmails.Location = new System.Drawing.Point(125, 1);
             this.chkConfigureEmails.Name = "chkConfigureEmails";
             this.chkConfigureEmails.Size = new System.Drawing.Size(15, 14);
             this.chkConfigureEmails.TabIndex = 43;
@@ -577,6 +667,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // cmdSendTestEmail
             // 
+            this.cmdSendTestEmail.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmdSendTestEmail.Location = new System.Drawing.Point(6, 112);
             this.cmdSendTestEmail.Name = "cmdSendTestEmail";
             this.cmdSendTestEmail.Size = new System.Drawing.Size(149, 23);
@@ -588,6 +679,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
+            this.lblPassword.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblPassword.Location = new System.Drawing.Point(201, 120);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(57, 13);
@@ -596,14 +688,16 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtEmailLoginUserPassword
             // 
+            this.txtEmailLoginUserPassword.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtEmailLoginUserPassword.Location = new System.Drawing.Point(262, 117);
             this.txtEmailLoginUserPassword.Name = "txtEmailLoginUserPassword";
-            this.txtEmailLoginUserPassword.Size = new System.Drawing.Size(110, 21);
+            this.txtEmailLoginUserPassword.Size = new System.Drawing.Size(143, 21);
             this.txtEmailLoginUserPassword.TabIndex = 40;
             // 
             // lblUserNameEmail
             // 
             this.lblUserNameEmail.AutoSize = true;
+            this.lblUserNameEmail.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblUserNameEmail.Location = new System.Drawing.Point(157, 95);
             this.lblUserNameEmail.Name = "lblUserNameEmail";
             this.lblUserNameEmail.Size = new System.Drawing.Size(101, 13);
@@ -612,6 +706,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtEmailLoginUserName
             // 
+            this.txtEmailLoginUserName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtEmailLoginUserName.Location = new System.Drawing.Point(262, 90);
             this.txtEmailLoginUserName.Name = "txtEmailLoginUserName";
             this.txtEmailLoginUserName.Size = new System.Drawing.Size(286, 21);
@@ -620,6 +715,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblSMTPServer
             // 
             this.lblSMTPServer.AutoSize = true;
+            this.lblSMTPServer.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblSMTPServer.Location = new System.Drawing.Point(186, 47);
             this.lblSMTPServer.Name = "lblSMTPServer";
             this.lblSMTPServer.Size = new System.Drawing.Size(72, 13);
@@ -629,6 +725,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblFromEmail
             // 
             this.lblFromEmail.AutoSize = true;
+            this.lblFromEmail.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblFromEmail.Location = new System.Drawing.Point(196, 20);
             this.lblFromEmail.Name = "lblFromEmail";
             this.lblFromEmail.Size = new System.Drawing.Size(62, 13);
@@ -638,6 +735,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblPort
             // 
             this.lblPort.AutoSize = true;
+            this.lblPort.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblPort.Location = new System.Drawing.Point(411, 48);
             this.lblPort.Name = "lblPort";
             this.lblPort.Size = new System.Drawing.Size(91, 13);
@@ -647,6 +745,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // chkEnableSSL
             // 
             this.chkEnableSSL.AutoSize = true;
+            this.chkEnableSSL.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.chkEnableSSL.Location = new System.Drawing.Point(471, 69);
             this.chkEnableSSL.Name = "chkEnableSSL";
             this.chkEnableSSL.Size = new System.Drawing.Size(78, 17);
@@ -657,6 +756,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // chkServerRequiresAuth
             // 
             this.chkServerRequiresAuth.AutoSize = true;
+            this.chkServerRequiresAuth.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.chkServerRequiresAuth.Location = new System.Drawing.Point(262, 69);
             this.chkServerRequiresAuth.Name = "chkServerRequiresAuth";
             this.chkServerRequiresAuth.Size = new System.Drawing.Size(188, 17);
@@ -666,6 +766,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // nudEmailOutgoingPortNumber
             // 
+            this.nudEmailOutgoingPortNumber.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.nudEmailOutgoingPortNumber.Location = new System.Drawing.Point(503, 44);
             this.nudEmailOutgoingPortNumber.Maximum = new decimal(new int[] {
             1000,
@@ -683,6 +784,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtSMTPServer
             // 
+            this.txtSMTPServer.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtSMTPServer.Location = new System.Drawing.Point(262, 43);
             this.txtSMTPServer.Name = "txtSMTPServer";
             this.txtSMTPServer.Size = new System.Drawing.Size(143, 21);
@@ -690,6 +792,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtFromEmail
             // 
+            this.txtFromEmail.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtFromEmail.Location = new System.Drawing.Point(262, 16);
             this.txtFromEmail.Name = "txtFromEmail";
             this.txtFromEmail.Size = new System.Drawing.Size(285, 21);
@@ -698,6 +801,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblSuccessEmail
             // 
             this.lblSuccessEmail.AutoSize = true;
+            this.lblSuccessEmail.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblSuccessEmail.Location = new System.Drawing.Point(6, 22);
             this.lblSuccessEmail.Name = "lblSuccessEmail";
             this.lblSuccessEmail.Size = new System.Drawing.Size(88, 13);
@@ -707,6 +811,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblFailureEmail
             // 
             this.lblFailureEmail.AutoSize = true;
+            this.lblFailureEmail.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblFailureEmail.Location = new System.Drawing.Point(5, 65);
             this.lblFailureEmail.Name = "lblFailureEmail";
             this.lblFailureEmail.Size = new System.Drawing.Size(70, 13);
@@ -715,6 +820,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtFailureEmail
             // 
+            this.txtFailureEmail.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtFailureEmail.Location = new System.Drawing.Point(6, 83);
             this.txtFailureEmail.Name = "txtFailureEmail";
             this.txtFailureEmail.Size = new System.Drawing.Size(149, 21);
@@ -722,6 +828,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtSuccessEmail
             // 
+            this.txtSuccessEmail.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtSuccessEmail.Location = new System.Drawing.Point(6, 40);
             this.txtSuccessEmail.Name = "txtSuccessEmail";
             this.txtSuccessEmail.Size = new System.Drawing.Size(150, 21);
@@ -748,6 +855,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.gbWorkingDirectories.Controls.Add(this.txtBackupZips);
             this.gbWorkingDirectories.Controls.Add(this.txtScratchPad);
             this.gbWorkingDirectories.Controls.Add(this.txtSQLFileLocations);
+            this.gbWorkingDirectories.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.gbWorkingDirectories.Location = new System.Drawing.Point(10, 6);
             this.gbWorkingDirectories.Name = "gbWorkingDirectories";
             this.gbWorkingDirectories.Size = new System.Drawing.Size(556, 114);
@@ -757,6 +865,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // cmdSQLDBFiles
             // 
+            this.cmdSQLDBFiles.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmdSQLDBFiles.Location = new System.Drawing.Point(497, 76);
             this.cmdSQLDBFiles.Name = "cmdSQLDBFiles";
             this.cmdSQLDBFiles.Size = new System.Drawing.Size(38, 23);
@@ -767,6 +876,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // cmdScratch
             // 
+            this.cmdScratch.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmdScratch.Location = new System.Drawing.Point(497, 49);
             this.cmdScratch.Name = "cmdScratch";
             this.cmdScratch.Size = new System.Drawing.Size(38, 23);
@@ -777,6 +887,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // cmdBackupZips
             // 
+            this.cmdBackupZips.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmdBackupZips.Location = new System.Drawing.Point(497, 24);
             this.cmdBackupZips.Name = "cmdBackupZips";
             this.cmdBackupZips.Size = new System.Drawing.Size(38, 23);
@@ -788,6 +899,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblSqlDBFiles
             // 
             this.lblSqlDBFiles.AutoSize = true;
+            this.lblSqlDBFiles.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblSqlDBFiles.Location = new System.Drawing.Point(16, 81);
             this.lblSqlDBFiles.Name = "lblSqlDBFiles";
             this.lblSqlDBFiles.Size = new System.Drawing.Size(70, 13);
@@ -797,6 +909,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblBackupZips
             // 
             this.lblBackupZips.AutoSize = true;
+            this.lblBackupZips.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblBackupZips.Location = new System.Drawing.Point(19, 27);
             this.lblBackupZips.Name = "lblBackupZips";
             this.lblBackupZips.Size = new System.Drawing.Size(67, 13);
@@ -806,6 +919,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // lblScratch
             // 
             this.lblScratch.AutoSize = true;
+            this.lblScratch.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblScratch.Location = new System.Drawing.Point(18, 54);
             this.lblScratch.Name = "lblScratch";
             this.lblScratch.Size = new System.Drawing.Size(68, 13);
@@ -814,6 +928,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtBackupZips
             // 
+            this.txtBackupZips.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtBackupZips.Location = new System.Drawing.Point(88, 24);
             this.txtBackupZips.Name = "txtBackupZips";
             this.txtBackupZips.Size = new System.Drawing.Size(403, 21);
@@ -821,6 +936,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtScratchPad
             // 
+            this.txtScratchPad.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtScratchPad.Location = new System.Drawing.Point(88, 51);
             this.txtScratchPad.Name = "txtScratchPad";
             this.txtScratchPad.Size = new System.Drawing.Size(403, 21);
@@ -828,6 +944,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             // 
             // txtSQLFileLocations
             // 
+            this.txtSQLFileLocations.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtSQLFileLocations.Location = new System.Drawing.Point(88, 78);
             this.txtSQLFileLocations.Name = "txtSQLFileLocations";
             this.txtSQLFileLocations.Size = new System.Drawing.Size(403, 21);
@@ -865,32 +982,6 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.lblHowLongTokeep.TabIndex = 13;
             this.lblHowLongTokeep.Text = "How long to keep backup files:";
             // 
-            // txtConnectionString
-            // 
-            this.txtConnectionString.Location = new System.Drawing.Point(136, 47);
-            this.txtConnectionString.Name = "txtConnectionString";
-            this.txtConnectionString.ReadOnly = true;
-            this.txtConnectionString.Size = new System.Drawing.Size(350, 21);
-            this.txtConnectionString.TabIndex = 13;
-            // 
-            // lblConnection
-            // 
-            this.lblConnection.AutoSize = true;
-            this.lblConnection.Location = new System.Drawing.Point(66, 50);
-            this.lblConnection.Name = "lblConnection";
-            this.lblConnection.Size = new System.Drawing.Size(65, 13);
-            this.lblConnection.TabIndex = 14;
-            this.lblConnection.Text = "Connection:";
-            // 
-            // cmdConfigureConn
-            // 
-            this.cmdConfigureConn.Location = new System.Drawing.Point(492, 47);
-            this.cmdConfigureConn.Name = "cmdConfigureConn";
-            this.cmdConfigureConn.Size = new System.Drawing.Size(67, 23);
-            this.cmdConfigureConn.TabIndex = 15;
-            this.cmdConfigureConn.Text = "Configure";
-            this.cmdConfigureConn.UseVisualStyleBackColor = true;
-            // 
             // tabFTPSchduler
             // 
             this.tabFTPSchduler.Controls.Add(this.grpScheduleJog);
@@ -903,138 +994,158 @@ namespace NC.Util.SqlSrv.BackupRestore
             this.tabFTPSchduler.Text = "FTP and Scheduler";
             this.tabFTPSchduler.UseVisualStyleBackColor = true;
             // 
+            // grpScheduleJog
+            // 
+            this.grpScheduleJog.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.grpScheduleJog.Controls.Add(this.lblWTSJobStart);
+            this.grpScheduleJog.Controls.Add(this.lblJobStart);
+            this.grpScheduleJog.Controls.Add(this.dateTimePicker1);
+            this.grpScheduleJog.Controls.Add(this.chkScheduleToRunDaily);
+            this.grpScheduleJog.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.grpScheduleJog.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.grpScheduleJog.Location = new System.Drawing.Point(3, 226);
+            this.grpScheduleJog.Name = "grpScheduleJog";
+            this.grpScheduleJog.Size = new System.Drawing.Size(566, 82);
+            this.grpScheduleJog.TabIndex = 1;
+            this.grpScheduleJog.TabStop = false;
+            this.grpScheduleJog.Text = "Scheduling";
+            // 
+            // lblWTSJobStart
+            // 
+            this.lblWTSJobStart.AutoSize = true;
+            this.lblWTSJobStart.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblWTSJobStart.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblWTSJobStart.Location = new System.Drawing.Point(265, 52);
+            this.lblWTSJobStart.Name = "lblWTSJobStart";
+            this.lblWTSJobStart.Size = new System.Drawing.Size(205, 13);
+            this.lblWTSJobStart.TabIndex = 45;
+            this.lblWTSJobStart.Text = "Windows Task Scheduler will start the job";
+            // 
+            // lblJobStart
+            // 
+            this.lblJobStart.AutoSize = true;
+            this.lblJobStart.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblJobStart.Location = new System.Drawing.Point(102, 52);
+            this.lblJobStart.Name = "lblJobStart";
+            this.lblJobStart.Size = new System.Drawing.Size(55, 13);
+            this.lblJobStart.TabIndex = 43;
+            this.lblJobStart.Text = "Job Start:";
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePicker1.Location = new System.Drawing.Point(164, 48);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.ShowUpDown = true;
+            this.dateTimePicker1.Size = new System.Drawing.Size(95, 21);
+            this.dateTimePicker1.TabIndex = 44;
+            // 
+            // chkScheduleToRunDaily
+            // 
+            this.chkScheduleToRunDaily.AutoSize = true;
+            this.chkScheduleToRunDaily.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.chkScheduleToRunDaily.Location = new System.Drawing.Point(106, 25);
+            this.chkScheduleToRunDaily.Name = "chkScheduleToRunDaily";
+            this.chkScheduleToRunDaily.Size = new System.Drawing.Size(164, 17);
+            this.chkScheduleToRunDaily.TabIndex = 43;
+            this.chkScheduleToRunDaily.Text = "Schedule to run this job daily";
+            this.chkScheduleToRunDaily.UseVisualStyleBackColor = true;
+            // 
             // grbFTP
             // 
             this.grbFTP.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.grbFTP.Controls.Add(this.lblDataConnection);
-            this.grbFTP.Controls.Add(this.chkWriteFTPSessionLog);
-            this.grbFTP.Controls.Add(this.chkUseFTP);
+            this.grbFTP.Controls.Add(this.cmdTestFTPTransfer);
+            this.grbFTP.Controls.Add(this.chkFTPWriteSessionLog);
+            this.grbFTP.Controls.Add(this.chkFTPUseFTPSettings);
             this.grbFTP.Controls.Add(this.lblRemoteFolder);
-            this.grbFTP.Controls.Add(this.txtRemoteFolder);
+            this.grbFTP.Controls.Add(this.txtFTPRemoteFolder);
             this.grbFTP.Controls.Add(this.lblFTPPort);
-            this.grbFTP.Controls.Add(this.cboDataConnection);
             this.grbFTP.Controls.Add(this.nudFTPPort);
             this.grbFTP.Controls.Add(this.lblFTPPassword);
-            this.grbFTP.Controls.Add(this.textBox3);
+            this.grbFTP.Controls.Add(this.txtFTPPassword);
             this.grbFTP.Controls.Add(this.lblFTPUserName);
-            this.grbFTP.Controls.Add(this.textBox2);
+            this.grbFTP.Controls.Add(this.txtFTPUserName);
             this.grbFTP.Controls.Add(this.lblFTPExample);
             this.grbFTP.Controls.Add(this.lblFTPHostAddress);
-            this.grbFTP.Controls.Add(this.textBox1);
+            this.grbFTP.Controls.Add(this.txtFTPHostAddress);
             this.grbFTP.Controls.Add(this.lblFTPMonths);
             this.grbFTP.Controls.Add(this.lblFTPDays);
             this.grbFTP.Controls.Add(this.nudFTPDays);
             this.grbFTP.Controls.Add(this.nudFTPMonths);
             this.grbFTP.Controls.Add(this.lblHowLogToKeepFTPFiles);
             this.grbFTP.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grbFTP.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.grbFTP.Location = new System.Drawing.Point(3, 3);
             this.grbFTP.Name = "grbFTP";
-            this.grbFTP.Size = new System.Drawing.Size(566, 234);
+            this.grbFTP.Size = new System.Drawing.Size(566, 217);
             this.grbFTP.TabIndex = 0;
             this.grbFTP.TabStop = false;
-            this.grbFTP.Text = "FTP";
+            this.grbFTP.Text = "FTP Settings";
             // 
-            // lblFTPMonths
+            // cmdTestFTPTransfer
             // 
-            this.lblFTPMonths.AutoSize = true;
-            this.lblFTPMonths.Location = new System.Drawing.Point(217, 23);
-            this.lblFTPMonths.Name = "lblFTPMonths";
-            this.lblFTPMonths.Size = new System.Drawing.Size(42, 13);
-            this.lblFTPMonths.TabIndex = 27;
-            this.lblFTPMonths.Text = "Months";
+            this.cmdTestFTPTransfer.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmdTestFTPTransfer.Location = new System.Drawing.Point(414, 46);
+            this.cmdTestFTPTransfer.Name = "cmdTestFTPTransfer";
+            this.cmdTestFTPTransfer.Size = new System.Drawing.Size(120, 23);
+            this.cmdTestFTPTransfer.TabIndex = 43;
+            this.cmdTestFTPTransfer.Text = "Test FTP Transfer";
+            this.cmdTestFTPTransfer.UseVisualStyleBackColor = true;
+            this.cmdTestFTPTransfer.Click += new System.EventHandler(this.cmdTestFTPTransfer_Click);
             // 
-            // lblFTPDays
+            // chkFTPWriteSessionLog
             // 
-            this.lblFTPDays.AutoSize = true;
-            this.lblFTPDays.Location = new System.Drawing.Point(302, 23);
-            this.lblFTPDays.Name = "lblFTPDays";
-            this.lblFTPDays.Size = new System.Drawing.Size(31, 13);
-            this.lblFTPDays.TabIndex = 26;
-            this.lblFTPDays.Text = "Days";
+            this.chkFTPWriteSessionLog.AutoSize = true;
+            this.chkFTPWriteSessionLog.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.chkFTPWriteSessionLog.Location = new System.Drawing.Point(112, 185);
+            this.chkFTPWriteSessionLog.Name = "chkFTPWriteSessionLog";
+            this.chkFTPWriteSessionLog.Size = new System.Drawing.Size(132, 17);
+            this.chkFTPWriteSessionLog.TabIndex = 41;
+            this.chkFTPWriteSessionLog.Text = "Write FTP Session Log";
+            this.chkFTPWriteSessionLog.UseVisualStyleBackColor = true;
             // 
-            // nudFTPDays
+            // chkFTPUseFTPSettings
             // 
-            this.nudFTPDays.Location = new System.Drawing.Point(261, 19);
-            this.nudFTPDays.Name = "nudFTPDays";
-            this.nudFTPDays.Size = new System.Drawing.Size(36, 21);
-            this.nudFTPDays.TabIndex = 25;
+            this.chkFTPUseFTPSettings.AutoSize = true;
+            this.chkFTPUseFTPSettings.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.chkFTPUseFTPSettings.Location = new System.Drawing.Point(90, 0);
+            this.chkFTPUseFTPSettings.Name = "chkFTPUseFTPSettings";
+            this.chkFTPUseFTPSettings.Size = new System.Drawing.Size(15, 14);
+            this.chkFTPUseFTPSettings.TabIndex = 40;
+            this.chkFTPUseFTPSettings.UseVisualStyleBackColor = true;
             // 
-            // nudFTPMonths
+            // lblRemoteFolder
             // 
-            this.nudFTPMonths.Location = new System.Drawing.Point(176, 19);
-            this.nudFTPMonths.Name = "nudFTPMonths";
-            this.nudFTPMonths.Size = new System.Drawing.Size(36, 21);
-            this.nudFTPMonths.TabIndex = 24;
+            this.lblRemoteFolder.AutoSize = true;
+            this.lblRemoteFolder.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblRemoteFolder.Location = new System.Drawing.Point(33, 157);
+            this.lblRemoteFolder.Name = "lblRemoteFolder";
+            this.lblRemoteFolder.Size = new System.Drawing.Size(74, 13);
+            this.lblRemoteFolder.TabIndex = 39;
+            this.lblRemoteFolder.Text = "RemoteFolder";
             // 
-            // lblHowLogToKeepFTPFiles
+            // txtFTPRemoteFolder
             // 
-            this.lblHowLogToKeepFTPFiles.AutoSize = true;
-            this.lblHowLogToKeepFTPFiles.Location = new System.Drawing.Point(17, 23);
-            this.lblHowLogToKeepFTPFiles.Name = "lblHowLogToKeepFTPFiles";
-            this.lblHowLogToKeepFTPFiles.Size = new System.Drawing.Size(139, 13);
-            this.lblHowLogToKeepFTPFiles.TabIndex = 23;
-            this.lblHowLogToKeepFTPFiles.Text = "How long to keep FTP Files:";
+            this.txtFTPRemoteFolder.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtFTPRemoteFolder.Location = new System.Drawing.Point(112, 153);
+            this.txtFTPRemoteFolder.Name = "txtFTPRemoteFolder";
+            this.txtFTPRemoteFolder.Size = new System.Drawing.Size(295, 21);
+            this.txtFTPRemoteFolder.TabIndex = 38;
             // 
-            // textBox1
+            // lblFTPPort
             // 
-            this.textBox1.Location = new System.Drawing.Point(109, 48);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(295, 21);
-            this.textBox1.TabIndex = 28;
-            // 
-            // lblFTPHostAddress
-            // 
-            this.lblFTPHostAddress.AutoSize = true;
-            this.lblFTPHostAddress.Location = new System.Drawing.Point(32, 51);
-            this.lblFTPHostAddress.Name = "lblFTPHostAddress";
-            this.lblFTPHostAddress.Size = new System.Drawing.Size(75, 13);
-            this.lblFTPHostAddress.TabIndex = 29;
-            this.lblFTPHostAddress.Text = "Host Address:";
-            // 
-            // lblFTPExample
-            // 
-            this.lblFTPExample.AutoSize = true;
-            this.lblFTPExample.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblFTPExample.Location = new System.Drawing.Point(109, 72);
-            this.lblFTPExample.Name = "lblFTPExample";
-            this.lblFTPExample.Size = new System.Drawing.Size(246, 13);
-            this.lblFTPExample.TabIndex = 30;
-            this.lblFTPExample.Text = "e.g. MyFTPServer.com or ftp://MyFTPServer.com";
-            // 
-            // lblFTPUserName
-            // 
-            this.lblFTPUserName.AutoSize = true;
-            this.lblFTPUserName.Location = new System.Drawing.Point(44, 97);
-            this.lblFTPUserName.Name = "lblFTPUserName";
-            this.lblFTPUserName.Size = new System.Drawing.Size(63, 13);
-            this.lblFTPUserName.TabIndex = 32;
-            this.lblFTPUserName.Text = "User Name:";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(109, 94);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(91, 21);
-            this.textBox2.TabIndex = 31;
-            // 
-            // lblFTPPassword
-            // 
-            this.lblFTPPassword.AutoSize = true;
-            this.lblFTPPassword.Location = new System.Drawing.Point(206, 97);
-            this.lblFTPPassword.Name = "lblFTPPassword";
-            this.lblFTPPassword.Size = new System.Drawing.Size(57, 13);
-            this.lblFTPPassword.TabIndex = 34;
-            this.lblFTPPassword.Text = "Password:";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(265, 94);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(139, 21);
-            this.textBox3.TabIndex = 33;
+            this.lblFTPPort.AutoSize = true;
+            this.lblFTPPort.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblFTPPort.Location = new System.Drawing.Point(76, 126);
+            this.lblFTPPort.Name = "lblFTPPort";
+            this.lblFTPPort.Size = new System.Drawing.Size(31, 13);
+            this.lblFTPPort.TabIndex = 37;
+            this.lblFTPPort.Text = "Port:";
             // 
             // nudFTPPort
             // 
+            this.nudFTPPort.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.nudFTPPort.Location = new System.Drawing.Point(109, 123);
             this.nudFTPPort.Name = "nudFTPPort";
             this.nudFTPPort.Size = new System.Drawing.Size(70, 21);
@@ -1045,125 +1156,209 @@ namespace NC.Util.SqlSrv.BackupRestore
             0,
             0});
             // 
-            // lblFTPPort
+            // lblFTPPassword
             // 
-            this.lblFTPPort.AutoSize = true;
-            this.lblFTPPort.Location = new System.Drawing.Point(76, 126);
-            this.lblFTPPort.Name = "lblFTPPort";
-            this.lblFTPPort.Size = new System.Drawing.Size(31, 13);
-            this.lblFTPPort.TabIndex = 37;
-            this.lblFTPPort.Text = "Port:";
+            this.lblFTPPassword.AutoSize = true;
+            this.lblFTPPassword.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblFTPPassword.Location = new System.Drawing.Point(206, 97);
+            this.lblFTPPassword.Name = "lblFTPPassword";
+            this.lblFTPPassword.Size = new System.Drawing.Size(57, 13);
+            this.lblFTPPassword.TabIndex = 34;
+            this.lblFTPPassword.Text = "Password:";
             // 
-            // cboDataConnection
+            // txtFTPPassword
             // 
-            this.cboDataConnection.FormattingEnabled = true;
-            this.cboDataConnection.Location = new System.Drawing.Point(112, 151);
-            this.cboDataConnection.Name = "cboDataConnection";
-            this.cboDataConnection.Size = new System.Drawing.Size(185, 21);
-            this.cboDataConnection.TabIndex = 36;
+            this.txtFTPPassword.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtFTPPassword.Location = new System.Drawing.Point(265, 94);
+            this.txtFTPPassword.Name = "txtFTPPassword";
+            this.txtFTPPassword.Size = new System.Drawing.Size(139, 21);
+            this.txtFTPPassword.TabIndex = 33;
             // 
-            // lblRemoteFolder
+            // lblFTPUserName
             // 
-            this.lblRemoteFolder.AutoSize = true;
-            this.lblRemoteFolder.Location = new System.Drawing.Point(33, 182);
-            this.lblRemoteFolder.Name = "lblRemoteFolder";
-            this.lblRemoteFolder.Size = new System.Drawing.Size(74, 13);
-            this.lblRemoteFolder.TabIndex = 39;
-            this.lblRemoteFolder.Text = "RemoteFolder";
+            this.lblFTPUserName.AutoSize = true;
+            this.lblFTPUserName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblFTPUserName.Location = new System.Drawing.Point(44, 97);
+            this.lblFTPUserName.Name = "lblFTPUserName";
+            this.lblFTPUserName.Size = new System.Drawing.Size(63, 13);
+            this.lblFTPUserName.TabIndex = 32;
+            this.lblFTPUserName.Text = "User Name:";
             // 
-            // txtRemoteFolder
+            // txtFTPUserName
             // 
-            this.txtRemoteFolder.Location = new System.Drawing.Point(112, 178);
-            this.txtRemoteFolder.Name = "txtRemoteFolder";
-            this.txtRemoteFolder.Size = new System.Drawing.Size(295, 21);
-            this.txtRemoteFolder.TabIndex = 38;
+            this.txtFTPUserName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtFTPUserName.Location = new System.Drawing.Point(109, 94);
+            this.txtFTPUserName.Name = "txtFTPUserName";
+            this.txtFTPUserName.Size = new System.Drawing.Size(91, 21);
+            this.txtFTPUserName.TabIndex = 31;
             // 
-            // chkUseFTP
+            // lblFTPExample
             // 
-            this.chkUseFTP.AutoSize = true;
-            this.chkUseFTP.Location = new System.Drawing.Point(35, 0);
-            this.chkUseFTP.Name = "chkUseFTP";
-            this.chkUseFTP.Size = new System.Drawing.Size(15, 14);
-            this.chkUseFTP.TabIndex = 40;
-            this.chkUseFTP.UseVisualStyleBackColor = true;
+            this.lblFTPExample.AutoSize = true;
+            this.lblFTPExample.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblFTPExample.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblFTPExample.Location = new System.Drawing.Point(109, 72);
+            this.lblFTPExample.Name = "lblFTPExample";
+            this.lblFTPExample.Size = new System.Drawing.Size(246, 13);
+            this.lblFTPExample.TabIndex = 30;
+            this.lblFTPExample.Text = "e.g. MyFTPServer.com or ftp://MyFTPServer.com";
             // 
-            // chkWriteFTPSessionLog
+            // lblFTPHostAddress
             // 
-            this.chkWriteFTPSessionLog.AutoSize = true;
-            this.chkWriteFTPSessionLog.Location = new System.Drawing.Point(112, 205);
-            this.chkWriteFTPSessionLog.Name = "chkWriteFTPSessionLog";
-            this.chkWriteFTPSessionLog.Size = new System.Drawing.Size(132, 17);
-            this.chkWriteFTPSessionLog.TabIndex = 41;
-            this.chkWriteFTPSessionLog.Text = "Write FTP Session Log";
-            this.chkWriteFTPSessionLog.UseVisualStyleBackColor = true;
+            this.lblFTPHostAddress.AutoSize = true;
+            this.lblFTPHostAddress.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblFTPHostAddress.Location = new System.Drawing.Point(32, 51);
+            this.lblFTPHostAddress.Name = "lblFTPHostAddress";
+            this.lblFTPHostAddress.Size = new System.Drawing.Size(75, 13);
+            this.lblFTPHostAddress.TabIndex = 29;
+            this.lblFTPHostAddress.Text = "Host Address:";
             // 
-            // lblDataConnection
+            // txtFTPHostAddress
             // 
-            this.lblDataConnection.AutoSize = true;
-            this.lblDataConnection.Location = new System.Drawing.Point(14, 155);
-            this.lblDataConnection.Name = "lblDataConnection";
-            this.lblDataConnection.Size = new System.Drawing.Size(91, 13);
-            this.lblDataConnection.TabIndex = 42;
-            this.lblDataConnection.Text = "Data Connection:";
+            this.txtFTPHostAddress.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtFTPHostAddress.Location = new System.Drawing.Point(109, 48);
+            this.txtFTPHostAddress.Name = "txtFTPHostAddress";
+            this.txtFTPHostAddress.Size = new System.Drawing.Size(295, 21);
+            this.txtFTPHostAddress.TabIndex = 28;
             // 
-            // grpScheduleJog
+            // lblFTPMonths
             // 
-            this.grpScheduleJog.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.grpScheduleJog.Controls.Add(this.lblWTSJobStart);
-            this.grpScheduleJog.Controls.Add(this.lblJobStart);
-            this.grpScheduleJog.Controls.Add(this.dateTimePicker1);
-            this.grpScheduleJog.Controls.Add(this.chkScheduleToRunDaily);
-            this.grpScheduleJog.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.grpScheduleJog.Location = new System.Drawing.Point(3, 243);
-            this.grpScheduleJog.Name = "grpScheduleJog";
-            this.grpScheduleJog.Size = new System.Drawing.Size(566, 65);
-            this.grpScheduleJog.TabIndex = 1;
-            this.grpScheduleJog.TabStop = false;
-            this.grpScheduleJog.Text = "Scheduling";
+            this.lblFTPMonths.AutoSize = true;
+            this.lblFTPMonths.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblFTPMonths.Location = new System.Drawing.Point(217, 23);
+            this.lblFTPMonths.Name = "lblFTPMonths";
+            this.lblFTPMonths.Size = new System.Drawing.Size(42, 13);
+            this.lblFTPMonths.TabIndex = 27;
+            this.lblFTPMonths.Text = "Months";
             // 
-            // chkScheduleToRunDaily
+            // lblFTPDays
             // 
-            this.chkScheduleToRunDaily.AutoSize = true;
-            this.chkScheduleToRunDaily.Location = new System.Drawing.Point(68, 2);
-            this.chkScheduleToRunDaily.Name = "chkScheduleToRunDaily";
-            this.chkScheduleToRunDaily.Size = new System.Drawing.Size(164, 17);
-            this.chkScheduleToRunDaily.TabIndex = 43;
-            this.chkScheduleToRunDaily.Text = "Schedule to run this job daily";
-            this.chkScheduleToRunDaily.UseVisualStyleBackColor = true;
+            this.lblFTPDays.AutoSize = true;
+            this.lblFTPDays.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblFTPDays.Location = new System.Drawing.Point(302, 23);
+            this.lblFTPDays.Name = "lblFTPDays";
+            this.lblFTPDays.Size = new System.Drawing.Size(31, 13);
+            this.lblFTPDays.TabIndex = 26;
+            this.lblFTPDays.Text = "Days";
             // 
-            // dateTimePicker1
+            // nudFTPDays
             // 
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker1.Location = new System.Drawing.Point(140, 28);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.ShowUpDown = true;
-            this.dateTimePicker1.Size = new System.Drawing.Size(95, 21);
-            this.dateTimePicker1.TabIndex = 44;
+            this.nudFTPDays.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nudFTPDays.Location = new System.Drawing.Point(261, 19);
+            this.nudFTPDays.Name = "nudFTPDays";
+            this.nudFTPDays.Size = new System.Drawing.Size(36, 21);
+            this.nudFTPDays.TabIndex = 25;
             // 
-            // lblJobStart
+            // nudFTPMonths
             // 
-            this.lblJobStart.AutoSize = true;
-            this.lblJobStart.Location = new System.Drawing.Point(78, 32);
-            this.lblJobStart.Name = "lblJobStart";
-            this.lblJobStart.Size = new System.Drawing.Size(55, 13);
-            this.lblJobStart.TabIndex = 43;
-            this.lblJobStart.Text = "Job Start:";
+            this.nudFTPMonths.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nudFTPMonths.Location = new System.Drawing.Point(176, 19);
+            this.nudFTPMonths.Name = "nudFTPMonths";
+            this.nudFTPMonths.Size = new System.Drawing.Size(36, 21);
+            this.nudFTPMonths.TabIndex = 24;
             // 
-            // lblWTSJobStart
+            // lblHowLogToKeepFTPFiles
             // 
-            this.lblWTSJobStart.AutoSize = true;
-            this.lblWTSJobStart.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblWTSJobStart.Location = new System.Drawing.Point(241, 32);
-            this.lblWTSJobStart.Name = "lblWTSJobStart";
-            this.lblWTSJobStart.Size = new System.Drawing.Size(205, 13);
-            this.lblWTSJobStart.TabIndex = 45;
-            this.lblWTSJobStart.Text = "Windows Task Scheduler will start the job";
+            this.lblHowLogToKeepFTPFiles.AutoSize = true;
+            this.lblHowLogToKeepFTPFiles.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblHowLogToKeepFTPFiles.Location = new System.Drawing.Point(17, 23);
+            this.lblHowLogToKeepFTPFiles.Name = "lblHowLogToKeepFTPFiles";
+            this.lblHowLogToKeepFTPFiles.Size = new System.Drawing.Size(139, 13);
+            this.lblHowLogToKeepFTPFiles.TabIndex = 23;
+            this.lblHowLogToKeepFTPFiles.Text = "How long to keep FTP Files:";
+            // 
+            // tabDevelopment
+            // 
+            this.tabDevelopment.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabDevelopment.Controls.Add(this.cmdBackupDevelopmentDirectories);
+            this.tabDevelopment.Controls.Add(this.dgvDevelopmentDirectories);
+            this.tabDevelopment.Controls.Add(this.cmdBrowseDevelopmentDirectories);
+            this.tabDevelopment.Controls.Add(this.lblDevelopmentDirectory);
+            this.tabDevelopment.Controls.Add(this.txtDevelopmentDirectory);
+            this.tabDevelopment.Location = new System.Drawing.Point(4, 22);
+            this.tabDevelopment.Name = "tabDevelopment";
+            this.tabDevelopment.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDevelopment.Size = new System.Drawing.Size(572, 311);
+            this.tabDevelopment.TabIndex = 4;
+            this.tabDevelopment.Text = "Development Backups";
+            // 
+            // dgvDevelopmentDirectories
+            // 
+            this.dgvDevelopmentDirectories.AllowUserToAddRows = false;
+            this.dgvDevelopmentDirectories.AllowUserToDeleteRows = false;
+            this.dgvDevelopmentDirectories.AllowUserToOrderColumns = true;
+            this.dgvDevelopmentDirectories.AllowUserToResizeRows = false;
+            this.dgvDevelopmentDirectories.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.dgvDevelopmentDirectories.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDevelopmentDirectories.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSelected,
+            this.colDirectoryName});
+            this.dgvDevelopmentDirectories.Location = new System.Drawing.Point(111, 60);
+            this.dgvDevelopmentDirectories.Name = "dgvDevelopmentDirectories";
+            this.dgvDevelopmentDirectories.RowHeadersVisible = false;
+            this.dgvDevelopmentDirectories.Size = new System.Drawing.Size(358, 210);
+            this.dgvDevelopmentDirectories.TabIndex = 33;
+            // 
+            // cmdBrowseDevelopmentDirectories
+            // 
+            this.cmdBrowseDevelopmentDirectories.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmdBrowseDevelopmentDirectories.Location = new System.Drawing.Point(431, 27);
+            this.cmdBrowseDevelopmentDirectories.Name = "cmdBrowseDevelopmentDirectories";
+            this.cmdBrowseDevelopmentDirectories.Size = new System.Drawing.Size(38, 23);
+            this.cmdBrowseDevelopmentDirectories.TabIndex = 27;
+            this.cmdBrowseDevelopmentDirectories.Text = "...";
+            this.cmdBrowseDevelopmentDirectories.UseVisualStyleBackColor = true;
+            this.cmdBrowseDevelopmentDirectories.Click += new System.EventHandler(this.cmdBrowseDevelopmentDirectories_Click);
+            // 
+            // lblDevelopmentDirectory
+            // 
+            this.lblDevelopmentDirectory.AutoSize = true;
+            this.lblDevelopmentDirectory.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblDevelopmentDirectory.Location = new System.Drawing.Point(110, 11);
+            this.lblDevelopmentDirectory.Name = "lblDevelopmentDirectory";
+            this.lblDevelopmentDirectory.Size = new System.Drawing.Size(96, 13);
+            this.lblDevelopmentDirectory.TabIndex = 26;
+            this.lblDevelopmentDirectory.Text = "Development Zips:";
+            // 
+            // txtDevelopmentDirectory
+            // 
+            this.txtDevelopmentDirectory.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtDevelopmentDirectory.Location = new System.Drawing.Point(111, 29);
+            this.txtDevelopmentDirectory.Name = "txtDevelopmentDirectory";
+            this.txtDevelopmentDirectory.Size = new System.Drawing.Size(314, 21);
+            this.txtDevelopmentDirectory.TabIndex = 25;
+            // 
+            // cmdBackupDevelopmentDirectories
+            // 
+            this.cmdBackupDevelopmentDirectories.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmdBackupDevelopmentDirectories.Location = new System.Drawing.Point(192, 278);
+            this.cmdBackupDevelopmentDirectories.Name = "cmdBackupDevelopmentDirectories";
+            this.cmdBackupDevelopmentDirectories.Size = new System.Drawing.Size(186, 23);
+            this.cmdBackupDevelopmentDirectories.TabIndex = 34;
+            this.cmdBackupDevelopmentDirectories.Text = "Backup Development Directories";
+            this.cmdBackupDevelopmentDirectories.UseVisualStyleBackColor = true;
+            this.cmdBackupDevelopmentDirectories.Click += new System.EventHandler(this.cmdBackupDevelopmentDirectories_Click);
+            // 
+            // colSelected
+            // 
+            this.colSelected.FalseValue = "false";
+            this.colSelected.HeaderText = "Select";
+            this.colSelected.Name = "colSelected";
+            this.colSelected.TrueValue = "true";
+            this.colSelected.Width = 40;
+            // 
+            // colDirectoryName
+            // 
+            this.colDirectoryName.HeaderText = "Directory Name";
+            this.colDirectoryName.Name = "colDirectoryName";
+            this.colDirectoryName.Width = 315;
             // 
             // MainWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(605, 530);
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ClientSize = new System.Drawing.Size(605, 525);
             this.Controls.Add(this.cmdViewInNotepad);
             this.Controls.Add(this.cmdShow);
             this.Controls.Add(this.lblLogFile);
@@ -1198,13 +1393,16 @@ namespace NC.Util.SqlSrv.BackupRestore
             ((System.ComponentModel.ISupportInitialize)(this.nudDays)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMonths)).EndInit();
             this.tabFTPSchduler.ResumeLayout(false);
-            this.grbFTP.ResumeLayout(false);
-            this.grbFTP.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudFTPDays)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudFTPMonths)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudFTPPort)).EndInit();
             this.grpScheduleJog.ResumeLayout(false);
             this.grpScheduleJog.PerformLayout();
+            this.grbFTP.ResumeLayout(false);
+            this.grbFTP.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudFTPPort)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudFTPDays)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudFTPMonths)).EndInit();
+            this.tabDevelopment.ResumeLayout(false);
+            this.tabDevelopment.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDevelopmentDirectories)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1295,25 +1493,37 @@ namespace NC.Util.SqlSrv.BackupRestore
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.CheckBox chkScheduleToRunDaily;
         private System.Windows.Forms.GroupBox grbFTP;
-        private System.Windows.Forms.Label lblDataConnection;
-        private System.Windows.Forms.CheckBox chkWriteFTPSessionLog;
-        private System.Windows.Forms.CheckBox chkUseFTP;
+        private System.Windows.Forms.CheckBox chkFTPWriteSessionLog;
+        private System.Windows.Forms.CheckBox chkFTPUseFTPSettings;
         private System.Windows.Forms.Label lblRemoteFolder;
-        private System.Windows.Forms.TextBox txtRemoteFolder;
+        private System.Windows.Forms.TextBox txtFTPRemoteFolder;
         private System.Windows.Forms.Label lblFTPPort;
-        private System.Windows.Forms.ComboBox cboDataConnection;
         private System.Windows.Forms.NumericUpDown nudFTPPort;
         private System.Windows.Forms.Label lblFTPPassword;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtFTPPassword;
         private System.Windows.Forms.Label lblFTPUserName;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtFTPUserName;
         private System.Windows.Forms.Label lblFTPExample;
         private System.Windows.Forms.Label lblFTPHostAddress;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtFTPHostAddress;
         private System.Windows.Forms.Label lblFTPMonths;
         private System.Windows.Forms.Label lblFTPDays;
         private System.Windows.Forms.NumericUpDown nudFTPDays;
         private System.Windows.Forms.NumericUpDown nudFTPMonths;
         private System.Windows.Forms.Label lblHowLogToKeepFTPFiles;
+        private System.Windows.Forms.TabPage tabDevelopment;
+        private System.Windows.Forms.Button cmdBrowseDevelopmentDirectories;
+        private System.Windows.Forms.Label lblDevelopmentDirectory;
+        private System.Windows.Forms.TextBox txtDevelopmentDirectory;
+        private System.Windows.Forms.FolderBrowserDialog fbdDevDirectories;
+        private System.Windows.Forms.FolderBrowserDialog fbdMailboxDirectory;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolstripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.DataGridView dgvDevelopmentDirectories;
+        private System.Windows.Forms.Button cmdTestFTPTransfer;
+        private System.Windows.Forms.Button cmdBackupDevelopmentDirectories;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colSelected;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDirectoryName;
     }
 }
