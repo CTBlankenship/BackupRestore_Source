@@ -51,7 +51,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             }
         }
 
-        public static bool CopyFile(string FtpSite = @"ftp://novantconsulting.com/SQLBackups/", string fileName = "StrataFrame.bak", string FileToCopy = @"E:\SEPARCSecurity.txt", string userName = "CTBlankenship75", string password= "Babylon5")
+        public static bool CopyFile(string FtpSite = @"ftp://novantconsulting.com/SQLBackups/Novant/", string fileName = "StrataFrame.bak", string FileToCopy = @"E:\SEPARCSecurity.txt", string userName = "CTBlankenship75", string password= "Babylon5")
 
         {
             try
