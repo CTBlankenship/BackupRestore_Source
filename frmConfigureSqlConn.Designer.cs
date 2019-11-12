@@ -65,11 +65,13 @@
             // 
             // cboAuthentication
             // 
+            this.cboAuthentication.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboAuthentication.FormattingEnabled = true;
             this.cboAuthentication.Location = new System.Drawing.Point(136, 52);
             this.cboAuthentication.Name = "cboAuthentication";
-            this.cboAuthentication.Size = new System.Drawing.Size(131, 21);
+            this.cboAuthentication.Size = new System.Drawing.Size(168, 21);
             this.cboAuthentication.TabIndex = 2;
+            this.cboAuthentication.SelectionChangeCommitted += new System.EventHandler(this.cboAuthentication_SelectionChangeCommitted);
             // 
             // lblAuthentication
             // 
@@ -82,6 +84,7 @@
             // 
             // txtLogin
             // 
+            this.txtLogin.Enabled = false;
             this.txtLogin.Location = new System.Drawing.Point(136, 80);
             this.txtLogin.Name = "txtLogin";
             this.txtLogin.Size = new System.Drawing.Size(100, 20);
@@ -107,6 +110,7 @@
             // 
             // txtPassword
             // 
+            this.txtPassword.Enabled = false;
             this.txtPassword.Location = new System.Drawing.Point(136, 106);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(100, 20);
@@ -193,7 +197,7 @@
             this.Controls.Add(this.cmdGetSqlServers);
             this.Controls.Add(this.cboAvailableSQLServers);
             this.Name = "frmConfigureSqlConn";
-            this.Text = "frmConfigureSqlConn";
+            this.Text = "Configure SQL Server Connection";
             this.ResumeLayout(false);
             this.PerformLayout();
 

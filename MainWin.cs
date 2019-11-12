@@ -1189,6 +1189,7 @@ namespace NC.Util.SqlSrv.BackupRestore
         {
             using (frmConfigureSqlConn oCSN = new frmConfigureSqlConn())
             {
+                oCSN.ShowDialog();
                 if (oCSN.ConnectionString != String.Empty)
                 {
                     _sqlConn = new SqlConnection(oCSN.ConnectionString);

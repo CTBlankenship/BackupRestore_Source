@@ -18,6 +18,7 @@ namespace NC.Util.SqlSrv.BackupRestore
         public frmConfigureSqlConn()
         {
             InitializeComponent();
+            PopulateComboBoxes();
         }
 
         private void cmdGetSqlServers_Click(object sender, EventArgs e)
@@ -46,6 +47,29 @@ namespace NC.Util.SqlSrv.BackupRestore
             else
             {
                 cboAvailableSQLServers.Items.Add("CTB-MAXIMUS-PC");
+            }
+        }
+
+        private void PopulateComboBoxes()
+        {
+            cboAuthentication.Items.Add("Windows Authentication");
+            cboAuthentication.Items.Add("SQL Server Authentication");
+        }
+
+        private void cboAuthentication_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            string authentication = cboAuthentication.SelectedItem.ToString();
+            if (authentication == "SQL Server Authentication")
+            {
+                txtLogin.Enabled = true;
+                txtPassword.Enabled = true;
+            }
+            else
+            {
+                txtLogin.Enabled = false;
+                txtPassword.Enabled = false;
+                txtLogin.Text = String.Empty;
+                txtPassword.Text = String.Empty;
             }
         }
     }
