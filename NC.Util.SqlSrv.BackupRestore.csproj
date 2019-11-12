@@ -98,6 +98,12 @@
     </Compile>
     <Compile Include="CommandLineHelper.cs" />
     <Compile Include="Cryptography.cs" />
+    <Compile Include="frmConfigureSqlConn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConfigureSqlConn.Designer.cs">
+      <DependentUpon>frmConfigureSqlConn.cs</DependentUpon>
+    </Compile>
     <Compile Include="FTPHelper.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MainWin.cs">
@@ -111,6 +117,9 @@
     <EmbeddedResource Include="AboutBox.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConfigureSqlConn.resx">
+      <DependentUpon>frmConfigureSqlConn.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWin.resx">
       <SubType>Designer</SubType>

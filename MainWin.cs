@@ -16,51 +16,26 @@ using System.Net;
 using System.Net.Mail;
 
 
-// --------------------------------------------------------------------
-// To Use:
-// -------
-// 1. Change directories to match your own directory structure.
-// 2. Update the connection strings which apply to your situation
-// 3. Set the name of the databases to only those the user should be able
-//    to backup and restore
-// 4. For some reason this application needs Version 11 of the library
-//    Microsoft.SqlServer.Management.Sdk.Sfc ... I had to hack the 
-//    GAC of my development machine to get a copy to install on my
-//    client's machine which only had newer versions ... I'm pretty
-//    sure it is installed with Microsoft SQL Server 2012 but his
-//    server only had MS SQL 2016 installed. Maybe some of you out there
-//    can figure out why this animal is insistent upon Version 11.
-// --------------------------------------------------------------------
 namespace NC.Util.SqlSrv.BackupRestore
 {
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
     [SuppressMessage("ReSharper", "RedundantDelegateCreation")]
     public partial class MainWin : Form
     {
-        // ----------------------------------------------
-        // Used to complete the message to users that the
-        // backup of the database is complete
-        // ----------------------------------------------
         private string _dbName = string.Empty;
-
         private string _backupFileName = String.Empty;
         private SqlConnection _sqlConn;
         private Server _sqlServer;
         private List<Database> _dbList = new List<Database>();
-        // ------------------------------------------------------
-        // #1: Change directory names to match your configuration
-        // ------------------------------------------------------
-        private string _dbFileLocation = @"C:\Program Files\Microsoft SQL Server\MSSQL13.SQLSVR_2016\MSSQL\DATA\";
-        private string _devFilesLocation = @"E:\Development\";
-        private string _developmentZips = @"G:\DevelopmentBackups\";
-        // ----------------------------------------------------------
-        
-
+        private string _dbFileLocation = String.Empty;
+        private string _devFilesLocation = String.Empty;
+        private string _developmentZips = string.Empty;
         private string _zipFileName = String.Empty;
         private string _databaseFileName = String.Empty;
         private string _databaseLogFileName = string.Empty;
         private string _messageBoxCaption = "SQL Backup and Restore Utility";
         private string _archiveFileName = String.Empty;
+
         // -----------------------------------------------------------------
         // Encryption key has to be 16 characters in length ...
         // If you use this app, change your encryption key to something else
@@ -995,10 +970,13 @@ namespace NC.Util.SqlSrv.BackupRestore
 
         private void LoadDevelopmentDirectories()
         {
-            string[] directories = Directory.GetDirectories(_devFilesLocation);
-            foreach (string directory in directories)
+            if (Directory.Exists(_devFilesLocation))
             {
-                dgvDevelopmentDirectories.Rows.Add(0, directory);
+                string[] directories = Directory.GetDirectories(_devFilesLocation);
+                foreach (string directory in directories)
+                {
+                    dgvDevelopmentDirectories.Rows.Add(0, directory);
+                }
             }
         }
 
@@ -1209,7 +1187,15 @@ namespace NC.Util.SqlSrv.BackupRestore
 
         private void cmdConfigureConn_Click(object sender, EventArgs e)
         {
-
+            using (frmConfigureSqlConn oCSN = new frmConfigureSqlConn())
+            {
+                if (oCSN.ConnectionString != String.Empty)
+                {
+                    _sqlConn = new SqlConnection(oCSN.ConnectionString);
+                    _sqlServer = new Server(new ServerConnection(_sqlConn));
+                    PopulateGridWithDatabasesToBeBackedUp();
+                }
+            }
         }
     }
 }
