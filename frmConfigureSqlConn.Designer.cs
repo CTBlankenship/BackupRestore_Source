@@ -37,8 +37,6 @@
             this.lblPassword = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.cmdTestConnection = new System.Windows.Forms.Button();
-            this.lblDefaultDatabase = new System.Windows.Forms.Label();
-            this.cboDefaultDatabase = new System.Windows.Forms.ComboBox();
             this.lblConnectionString = new System.Windows.Forms.Label();
             this.txtConnectionString = new System.Windows.Forms.TextBox();
             this.cmdOK = new System.Windows.Forms.Button();
@@ -111,41 +109,25 @@
             // txtPassword
             // 
             this.txtPassword.Enabled = false;
-            this.txtPassword.Location = new System.Drawing.Point(136, 106);
+            this.txtPassword.Location = new System.Drawing.Point(136, 109);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(100, 20);
             this.txtPassword.TabIndex = 6;
             // 
             // cmdTestConnection
             // 
-            this.cmdTestConnection.Location = new System.Drawing.Point(136, 142);
+            this.cmdTestConnection.Location = new System.Drawing.Point(136, 135);
             this.cmdTestConnection.Name = "cmdTestConnection";
             this.cmdTestConnection.Size = new System.Drawing.Size(104, 23);
             this.cmdTestConnection.TabIndex = 8;
             this.cmdTestConnection.Text = "Test Connection";
             this.cmdTestConnection.UseVisualStyleBackColor = true;
-            // 
-            // lblDefaultDatabase
-            // 
-            this.lblDefaultDatabase.AutoSize = true;
-            this.lblDefaultDatabase.Location = new System.Drawing.Point(32, 179);
-            this.lblDefaultDatabase.Name = "lblDefaultDatabase";
-            this.lblDefaultDatabase.Size = new System.Drawing.Size(93, 13);
-            this.lblDefaultDatabase.TabIndex = 10;
-            this.lblDefaultDatabase.Text = "Default Database:";
-            // 
-            // cboDefaultDatabase
-            // 
-            this.cboDefaultDatabase.FormattingEnabled = true;
-            this.cboDefaultDatabase.Location = new System.Drawing.Point(136, 175);
-            this.cboDefaultDatabase.Name = "cboDefaultDatabase";
-            this.cboDefaultDatabase.Size = new System.Drawing.Size(131, 21);
-            this.cboDefaultDatabase.TabIndex = 9;
+            this.cmdTestConnection.Click += new System.EventHandler(this.cmdTestConnection_Click);
             // 
             // lblConnectionString
             // 
             this.lblConnectionString.AutoSize = true;
-            this.lblConnectionString.Location = new System.Drawing.Point(57, 205);
+            this.lblConnectionString.Location = new System.Drawing.Point(57, 167);
             this.lblConnectionString.Name = "lblConnectionString";
             this.lblConnectionString.Size = new System.Drawing.Size(68, 13);
             this.lblConnectionString.TabIndex = 12;
@@ -153,23 +135,24 @@
             // 
             // txtConnectionString
             // 
-            this.txtConnectionString.Location = new System.Drawing.Point(136, 202);
+            this.txtConnectionString.Location = new System.Drawing.Point(136, 164);
             this.txtConnectionString.Name = "txtConnectionString";
             this.txtConnectionString.Size = new System.Drawing.Size(416, 20);
             this.txtConnectionString.TabIndex = 11;
             // 
             // cmdOK
             // 
-            this.cmdOK.Location = new System.Drawing.Point(138, 238);
+            this.cmdOK.Location = new System.Drawing.Point(136, 202);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(80, 23);
             this.cmdOK.TabIndex = 13;
             this.cmdOK.Text = "Ok";
             this.cmdOK.UseVisualStyleBackColor = true;
+            this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
             // cmdCancel
             // 
-            this.cmdCancel.Location = new System.Drawing.Point(224, 238);
+            this.cmdCancel.Location = new System.Drawing.Point(222, 202);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(80, 23);
             this.cmdCancel.TabIndex = 14;
@@ -180,13 +163,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(564, 279);
+            this.ClientSize = new System.Drawing.Size(564, 240);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.lblConnectionString);
             this.Controls.Add(this.txtConnectionString);
-            this.Controls.Add(this.lblDefaultDatabase);
-            this.Controls.Add(this.cboDefaultDatabase);
             this.Controls.Add(this.cmdTestConnection);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.txtPassword);
@@ -214,8 +195,6 @@
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button cmdTestConnection;
-        private System.Windows.Forms.Label lblDefaultDatabase;
-        private System.Windows.Forms.ComboBox cboDefaultDatabase;
         private System.Windows.Forms.Label lblConnectionString;
         private System.Windows.Forms.TextBox txtConnectionString;
         private System.Windows.Forms.Button cmdOK;

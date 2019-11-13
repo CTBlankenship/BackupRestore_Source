@@ -85,21 +85,19 @@ namespace NC.Util.SqlSrv.BackupRestore
 
         public void PopulateGridWithDatabasesToBeBackedUp()
         {
-            foreach (Database db in _sqlServer.Databases)
+            if (_sqlServer.Databases.Count > 0)
             {
-                if (db.Name == "master" || db.Name == "tempdb" || db.Name == "model" || db.Name == "msdb")
+                foreach (Database db in _sqlServer.Databases)
                 {
-                    // Do not display system databases //
+                    if (db.Name == "master" || db.Name == "tempdb" || db.Name == "model" || db.Name == "msdb")
+                    {
+                        // Do not display system databases //
+                    }
+                    else
+                    {
+                        dgvDatabases.Rows.Add(0, db.Name, GenerateDBBackupFileName(db.Name) + ".zip");
+                    }
                 }
-                else
-                {
-                    dgvDatabases.Rows.Add(0, db.Name, GenerateDBBackupFileName(db.Name) + ".zip");
-                }
-            }
-
-            foreach (Database db in _dbList)
-            {
-                
             }
         }
 
