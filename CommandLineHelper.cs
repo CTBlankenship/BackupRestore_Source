@@ -21,7 +21,7 @@ namespace NC.Util.SqlSrv.BackupRestore
                 proc.Start();
                 proc.Dispose();
             }
-            catch (Exception objException)
+            catch (Exception)
             {
                 throw;
             }

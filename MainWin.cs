@@ -26,7 +26,6 @@ namespace NC.Util.SqlSrv.BackupRestore
         private string _backupFileName = String.Empty;
         private SqlConnection _sqlConn;
         private Server _sqlServer;
-        private List<Database> _dbList = new List<Database>();
         private string _dbFileLocation = String.Empty;
         private string _devFilesLocation = String.Empty;
         private string _developmentZips = string.Empty;
@@ -37,41 +36,27 @@ namespace NC.Util.SqlSrv.BackupRestore
         private string _archiveFileName = String.Empty;
 
         // -----------------------------------------------------------------
-        // Encryption key has to be 16 characters in length ...
-        // If you use this app, change your encryption key to something else
+        // If you use this app, change your encryption key to something else 
         // -----------------------------------------------------------------
         private string _encryptionKey = "LazyDog";
+
         private Dictionary<string,string> _configurationSettings = new Dictionary<string, string>();
         private string _settingsFileName = Environment.CurrentDirectory + @"\ConfigurationSettings.sbu";
 
         public MainWin()
         {
+
             InitializeComponent();
             openBakFile.InitialDirectory = Application.StartupPath;
             saveBakFile.InitialDirectory = Application.StartupPath;
             try
-            {
-                // ---------------------------------------------------------------
-                // #2: Update the connection strings which apply to your situation
-                // ---------------------------------------------------------------
-                switch (Environment.MachineName)
-                {
-                    case "CTB-MAXIMUS-PC":
-                        _sqlConn = new SqlConnection("Server=CTB-MAXIMUS-PC;Database=master;Trusted_Connection=True");
-                        break;
-                    case "SEP-JT":
-                        _sqlConn = new SqlConnection("Data Source=SEP-JT;Database=master;User ID=sa;Password=Babylon5");
-                        break;
-                    case "SEP":
-                        _sqlConn = new SqlConnection("Data Source=SEP;Database=master;User ID=sa;Password=Babylon5");
-                        break;
-                }
-
-                _sqlServer = new Server(new ServerConnection(_sqlConn));
-
-                PopulateGridWithDatabasesToBeBackedUp();
+            { 
                 InitializeConfigurationSettings();
                 ReadConfigurationSettings();
+                _configurationSettings.TryGetValue("ConfigurationSettings", out string connectionString);
+                _sqlConn = new SqlConnection(connectionString);
+                _sqlServer = new Server(new ServerConnection(_sqlConn));
+                PopulateGridWithDatabasesToBeBackedUp();
                 GenerateApplicationFileNames(_dbName);
                 LoadDevelopmentDirectories();
             }
@@ -87,6 +72,8 @@ namespace NC.Util.SqlSrv.BackupRestore
         {
             if (_sqlServer.Databases.Count > 0)
             {
+                dgvDatabases.Rows.Clear();
+
                 foreach (Database db in _sqlServer.Databases)
                 {
                     if (db.Name == "master" || db.Name == "tempdb" || db.Name == "model" || db.Name == "msdb")
@@ -476,13 +463,15 @@ namespace NC.Util.SqlSrv.BackupRestore
 
         private void MainWin_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_sqlConn.State == ConnectionState.Open)
+            if (_sqlConn != null)
             {
-                _sqlConn.Close();
+                if (_sqlConn.State == ConnectionState.Open)
+                {
+                    _sqlConn.Close();
+                }
+                _sqlConn.Dispose();
+                CleanUpScratchPadBakFiles();
             }
-            _sqlConn.Dispose();
-
-            CleanUpScratchPadBakFiles();
         }
 
         private void cmdGetZipFile_Click(object sender, EventArgs e)
@@ -897,6 +886,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             }
             catch (Exception ex)
             {
+                // ReSharper disable once LocalizableElement
                 txtLogFile.Text += "Test message attempt failed!" + Environment.NewLine; 
                 txtLogFile.Text += ex.ToString() + Environment.NewLine;
                 Logger.LogMessage("Test meesage attempt failed!");
@@ -904,27 +894,6 @@ namespace NC.Util.SqlSrv.BackupRestore
                 Logger.LogMessage("----------");
 
                 MessageBox.Show(ex.ToString(), _messageBoxCaption);
-            }
-        }
-
-        private void cmdBrowseDevelopmentDirectories_Click(object sender, EventArgs e)
-        {
-            fbdDevFileLocations.SelectedPath = Environment.CurrentDirectory;
-            fbdDevFileLocations.ShowNewFolderButton = false;
-            fbdDevFileLocations.Description = "Select the location of your development files";
-            if (fbdDevFileLocations.ShowDialog() == DialogResult.OK)
-            {
-                txtDevelopmentZips.Text = fbdDevFileLocations.SelectedPath + @"\";
-                _devFilesLocation = txtSQLFileLocations.Text;
-                BuildDevelopmentDirectoriesTreeView();
-            }
-        }
-
-        private void BuildDevelopmentDirectoriesTreeView()
-        {
-            if (Directory.Exists(_devFilesLocation))
-            {
-                var directories = Directory.GetDirectories(_devFilesLocation);
             }
         }
 
@@ -945,9 +914,8 @@ namespace NC.Util.SqlSrv.BackupRestore
                 progBar.Value = 0;
                 client.UploadFileAsync( new Uri(@"ftp://novantconsulting.com/SQLBackups/Novant/StrataFrame.bak"), @"E:\Strataframe.bak");
             }
-            catch (Exception exception)
+            catch (Exception)
             {
-                Console.WriteLine(exception);
                 throw;
             }
         }
@@ -968,9 +936,9 @@ namespace NC.Util.SqlSrv.BackupRestore
 
         private void LoadDevelopmentDirectories()
         {
-            if (Directory.Exists(_devFilesLocation))
+            if (Directory.Exists(txtDevFilesLocation.Text))
             {
-                string[] directories = Directory.GetDirectories(_devFilesLocation);
+                string[] directories = Directory.GetDirectories(txtDevFilesLocation.Text);
                 foreach (string directory in directories)
                 {
                     dgvDevelopmentDirectories.Rows.Add(0, directory);
@@ -1132,7 +1100,7 @@ namespace NC.Util.SqlSrv.BackupRestore
                     //Delete a Directory
                     Directory.Delete(path);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     throw;
                 }
@@ -1161,7 +1129,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             {
                 txtDevFilesLocation.Text = fbdDevFileLocations.SelectedPath + @"\";
                 _devFilesLocation = txtDevFilesLocation.Text;
-                BuildDevelopmentDirectoriesTreeView();
+                LoadDevelopmentDirectories();
             }
         }
 
@@ -1174,7 +1142,7 @@ namespace NC.Util.SqlSrv.BackupRestore
             {
                 txtDevelopmentZips.Text = fbdDevelopmentZips.SelectedPath + @"\";
                 _developmentZips = txtDevelopmentZips.Text;
-                BuildDevelopmentDirectoriesTreeView();
+                LoadDevelopmentDirectories();
             }
         }
 
@@ -1193,6 +1161,9 @@ namespace NC.Util.SqlSrv.BackupRestore
                     _sqlConn = new SqlConnection(oCSN.ConnectionString);
                     _sqlServer = new Server(new ServerConnection(_sqlConn));
                     PopulateGridWithDatabasesToBeBackedUp();
+                    txtConnectionString.Text = oCSN.ConnectionString;
+                    _configurationSettings["ConnectionString"] = oCSN.ConnectionString;
+                    SaveConfigurationSettings();
                 }
             }
         }
